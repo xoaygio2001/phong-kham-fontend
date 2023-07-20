@@ -1,0 +1,91 @@
+.manage-specialty-container {
+    padding: 0 15px;
+
+    .btn-add-specialty-clone {
+        border: none;
+        background: rgb(28, 111, 227);
+        padding: 8px 5px;
+        min-width: 75px;
+        border-radius: 3px;
+        margin: 15px 0;
+
+        .md-editor {
+            margin-top: 1%;
+        }
+    }
+
+    .btn-add-specialty-clone {
+        border: none;
+        background: none;
+        padding: 8px 5px;
+        min-width: 75px;
+        border-radius: 3px;
+        margin: 15px 0;
+        border-bottom: 1px blue solid;
+        border-right: 1px blue solid;
+
+        &:hover {
+            background-color: rgb(239, 116, 200);
+        }
+
+        .md-editor {
+            margin-top: 1%;
+        }
+    }
+
+    .ms-title {
+        text-align: center;
+        margin: 10px 0;
+        text-transform: uppercase;
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    .add-new-specialty {
+
+        .btn-add-specialty {
+
+            border: none;
+            background: aqua;
+            padding: 8px 5px;
+            min-width: 75px;
+            border-radius: 3px;
+            margin: 15px 0;
+
+            .md-editor {
+                margin-top: 1%;
+            }
+        }
+
+        .btn-edit-specialty {
+
+            border: none;
+            background: orange;
+            padding: 8px 5px;
+            min-width: 75px;
+            border-radius: 3px;
+            margin: 15px 0;
+
+            .md-editor {
+                margin-top: 1%;
+            }
+        }
+
+        .btn-delete-specialty {
+
+            border: none;
+            background: red;
+            padding: 8px 5px;
+            min-width: 75px;
+            border-radius: 3px;
+            margin: 15px 0;
+            margin-left: 2%;
+
+            .md-editor {
+                margin-top: 1%;
+            }
+        }
+    }
+
+
+}
