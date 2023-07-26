@@ -48,6 +48,7 @@
         "last-name": "Last name"
     },
     "homepage": {
+        "suggest-clinic": "Suggest Clinics For you",
         "outstanding-doctor": "Last week's featured doctor",
         "more-infor": "More Infor",
         "specialty-poplular": "Popular specialties"

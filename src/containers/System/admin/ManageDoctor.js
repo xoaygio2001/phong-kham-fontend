@@ -281,9 +281,6 @@ class ManageDoctor extends Component {
 
     render() {
         let { hasOldData } = this.state;
-
-        console.log('this.state.listPrice: ', this.state.listPrice )
-
         return (
             <div className='manage-doctor-container'>
                 <div className='manage-doctor-title'>

@@ -9,6 +9,10 @@ import DoctorExtrainfor from './DoctorExtrainfor';
 import LikeAndShare from '../SocialPlugin/LikeAndShare';
 import Comment from '../SocialPlugin/Comment';
 import { toast } from 'react-toastify';
+import moment from 'moment';
+import NodeGeocoder from 'node-geocoder';
+
+import FontAwesomeIcon from '@fortawesome/fontawesome-free-webfonts'
 
 
 class DetailDoctor extends Component {
@@ -18,9 +22,12 @@ class DetailDoctor extends Component {
             detailDoctor: {},
             currentDoctorId: -1,
             comment: '',
-            commentArr: ''
+            commentArr: '',
+            star: 0,
+            activeStar: 5
         }
     }
+
 
     async componentDidMount() {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
@@ -50,7 +57,28 @@ class DetailDoctor extends Component {
             this.setState({
                 commentArr: res.data
             })
+
+            if (res.data.length > 0) {
+
+                let divide = 0;
+                let sum = 0;
+
+                res.data.map((item, index) => {
+                    divide++;
+                    sum = sum + item.rate
+                })
+
+                let star = (sum / divide).toFixed(1);
+
+                this.setState({
+                    commentArr: res.data,
+                    star: star
+                })
+
+            }
+
         }
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -63,14 +91,21 @@ class DetailDoctor extends Component {
         })
     }
 
+    ClickStart = (point) => {
+        this.setState({
+            activeStar: point
+        })
+    }
+
     handleSubmitComment = async () => {
         if (this.state.comment) {
-            var email = prompt('Nhập email mà bạn đã thăm khám vào đây!')
+            var email = prompt('Nhập email mà bạn đã thăm khám vào đây!');
             if (this.state.comment && email) {
                 var res = await submitComment({
                     email: email,
                     comment: this.state.comment,
-                    doctorId: this.state.detailDoctor.id
+                    doctorId: this.state.detailDoctor.id,
+                    rate: this.state.activeStar
                 })
 
                 if (res && res.errCode === 0) {
@@ -85,23 +120,32 @@ class DetailDoctor extends Component {
                 }
             }
             else {
-                toast.error('Vui lòng điền đầy đủ thông tin!')
+                if (email != null) {
+                    toast.error('Vui lòng điền đầy đủ thông tin!')
+                }
+
             }
         }
+        else {
+            toast.error('Vui lòng nhập cảm nhận vào ô phản hồi!')
+        }
+
     }
 
     render() {
 
+        
+
+
+
+
         let { language } = this.props;
-        let { detailDoctor, commentArr } = this.state;
+        let { detailDoctor, commentArr, activeStar, star } = this.state;
         let nameVi = '', nameEn = '';
         if (detailDoctor && detailDoctor.positionData) {
             nameVi = `${detailDoctor.positionData.valueVi}, ${detailDoctor.lastName} ${detailDoctor.firstName}`;
             nameEn = `${detailDoctor.positionData.valueVi}, ${detailDoctor.firstName} ${detailDoctor.lastName}`;
         }
-
-        console.log('detailDoctor: ', detailDoctor)
-        console.log('commentArr: ', commentArr)
 
         return (
             <>
@@ -125,12 +169,56 @@ class DetailDoctor extends Component {
                                     <span>
                                         {detailDoctor.Markdown.description}
                                     </span>
+
                                 }
-                                <div className='like-share-plugin'>
-                                    {/* <LikeAndShare>
-                                        dataHref={currentURL}
-                                    </LikeAndShare> */}
-                                </div>
+
+                                {star == 0 ? <div className='like-share-plugin'>Hiện chưa có lượt đánh giá nào</div>
+                                    :
+
+                                    <div className='like-share-plugin'>
+                                        {
+                                            star > 0 ?
+                                                <i className="fa fa-solid fa-star sao1"></i>
+                                                :
+                                                <i className="far fa-solid fa-star sao1"></i>
+                                        }
+
+                                        {
+                                            star > 1.5 ?
+                                                <i className="fa fa-solid fa-star sao1"></i>
+                                                :
+                                                <i className="far fa-solid fa-star sao1"></i>
+                                        }
+
+                                        {
+                                            star > 2.5 ?
+                                                <i className="fa fa-solid fa-star sao1"></i>
+                                                :
+                                                <i className="far fa-solid fa-star sao1"></i>
+                                        }
+
+                                        {
+                                            star > 3.5 ?
+                                                <i className="fa fa-solid fa-star sao1"></i>
+                                                :
+                                                <i className="far fa-solid fa-star sao1"></i>
+                                        }
+
+                                        {
+                                            star > 4.5 ?
+                                                <i className="fa fa-solid fa-star sao1"></i>
+                                                :
+                                                <i className="far fa-solid fa-star sao1"></i>
+                                        }
+
+                                        {
+                                            star != 0 && ` ${star} / 5 sao`
+                                        }
+
+
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -154,7 +242,54 @@ class DetailDoctor extends Component {
                             </div>
                         }
                     </div>
+
+
+
                     <div className="comment-doctor">
+                        {
+                            activeStar > 0 ?
+                                <i onClick={() => this.ClickStart(1)} className="fa fa-solid fa-star sao1"></i>
+                                :
+                                <i onClick={() => this.ClickStart(1)} className="far fa-solid fa-star sao1"></i>
+                        }
+
+                        {
+                            activeStar > 1 ?
+                                <i onClick={() => this.ClickStart(2)} className="fa fa-solid fa-star sao1"></i>
+                                :
+                                <i onClick={() => this.ClickStart(2)} className="far fa-solid fa-star sao1"></i>
+                        }
+
+                        {
+                            activeStar > 2 ?
+                                <i onClick={() => this.ClickStart(3)} className="fa fa-solid fa-star sao1"></i>
+                                :
+                                <i onClick={() => this.ClickStart(3)} className="far fa-solid fa-star sao1"></i>
+                        }
+
+                        {
+                            activeStar > 3 ?
+                                <i onClick={() => this.ClickStart(4)} className="fa fa-solid fa-star sao1"></i>
+                                :
+                                <i onClick={() => this.ClickStart(4)} className="far fa-solid fa-star sao1"></i>
+                        }
+
+                        {
+                            activeStar > 4 ?
+                                <i onClick={() => this.ClickStart(5)} className="fa fa-solid fa-star sao1"></i>
+                                :
+                                <i onClick={() => this.ClickStart(5)} className="far fa-solid fa-star sao1"></i>
+                        }
+
+
+                        {activeStar == 1 && <i className="">Tệ</i>}
+                        {activeStar == 2 && <i className="">Không hài lòng</i>}
+                        {activeStar == 3 && <i className="">Bình thường</i>}
+                        {activeStar == 4 && <i className="">Hài lòng</i>}
+                        {activeStar == 5 && <i className="">Tuyệt vời</i>}
+
+
+
                         <div className='input-comment'>
                             <input className='form-control'
                                 placeholder='Cảm nhận của bạn sau khi khám'
@@ -177,10 +312,46 @@ class DetailDoctor extends Component {
                                         >
                                             <hr />
                                             <div className='content-comment'>
+
                                                 <div className='top-comment'>
                                                     <span className='name'>{item.userData.firstName}</span>
-                                                    {/* <span className='date-time'>đã khám 2/10/2001</span> */}
                                                 </div>
+
+                                                <div>
+                                                    {
+                                                        item.rate > 0 &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i>
+                                                    }
+
+                                                    {
+                                                        item.rate > 1 &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i>
+                                                    }
+
+                                                    {
+                                                        item.rate > 2 &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i>
+                                                    }
+                                                    {
+                                                        item.rate > 3 &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i>
+                                                    }
+                                                    {
+                                                        item.rate > 4 &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i> &&
+                                                        <i className="fa fa-solid fa-star saonho1"></i>
+                                                    }
+                                                </div>
+                                                <div>{moment(item.createdAt).format('LLLL')}</div>
                                                 <div className='bottom-comment'>
                                                     <span className='cmt'>{item.content}</span>
                                                 </div>

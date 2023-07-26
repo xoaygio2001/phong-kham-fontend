@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import './ManageClinic.scss';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
-import { CommonUtils } from '../../../utils';
+import { CommonUtils, LANGUAGES } from '../../../utils';
 import {
     createNewClinic,
     createNewSpecialty,
@@ -15,7 +15,8 @@ import {
     getAllClinic,
     getAllDetailClinicById,
     EditClinic,
-    DeleteClinic
+    DeleteClinic,
+    getAllCodeService
 
 } from '../../../services/userService';
 import { toast } from 'react-toastify';
@@ -38,14 +39,55 @@ class ManageClinic extends Component {
             listSpecialty: [],
             selectedSpecialty: '',
             id: '',
-            selectedOption: ''
+            selectedOption: '',
+            listProvince: [],
+            selectedProvince: ''
         }
     }
 
     async componentDidMount() {
 
         this.getAllSpecialty()
+        let resProvince = await getAllCodeService("PROVINCE");
+        console.log('resProvince: ', resProvince)
+        let dataSelectedProvince = this.buildDataInputSelectt(resProvince.data, 'PROVINCE');
+        console.log('dataSelectedProvince: ', dataSelectedProvince)
+        this.setState({
+            listProvince: dataSelectedProvince
+        })
     }
+
+    buildDataInputSelectt = (inputData, type) => {
+        let result = [];
+        let { language } = this.props;
+        if (inputData && inputData.length > 0) {
+            if (type === 'PAYMENT' || type === 'PROVINCE') {
+                inputData.map((item, index) => {
+                    let object = {};
+                    let labelVi = `${item.valueVi}`;
+                    let labelEn = `${item.valueEn}`;
+                    object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+                    object.value = item.keyMap;
+                    result.push(object)
+                })
+            }
+        }
+        return result;
+
+    }
+
+
+    handleChangeSelectDoctorInfor = async (selectedOption, name) => {
+        let stateName = name.name;
+        let stateCopy = { ...this.state };
+        stateCopy[stateName] = selectedOption;
+        this.setState({
+            ...stateCopy
+        })
+    }
+
+
+
 
     getAllSpecialty = async () => {
 
@@ -180,6 +222,7 @@ class ManageClinic extends Component {
                 !this.state.name
                 || !this.state.address
                 || !this.state.imageBase64
+                || !this.state.selectedProvince
                 || !this.state.descriptionHTML
                 || !this.state.descriptionMarkdown) {
                 toast.error('Vui lòng điền đầy đủ thông tin!');
@@ -194,7 +237,8 @@ class ManageClinic extends Component {
                     imageBase64: '',
                     descriptionHTML: '',
                     descriptionMarkdown: '',
-                    address: ''
+                    address: '',
+                    selectedProvince: ''
                 })
             } else {
                 toast.error('Thêm phòng khám thất bại....')
@@ -267,6 +311,7 @@ class ManageClinic extends Component {
 
 
     render() {
+        console.log('this.state: ', this.state)
         var { AddSpecialty, listSpecialty } = this.state
 
         return (
@@ -306,6 +351,7 @@ class ManageClinic extends Component {
                                 onChange={(event) => this.handleOnChangeInput(event, 'address')}
                             />
                         </div>
+
 
                         <div className="col-12 md-editor">
                             <MdEditor
@@ -358,6 +404,17 @@ class ManageClinic extends Component {
                             <label>Địa chỉ phòng khám</label>
                             <input className="form-control" type="text" value={this.state.address}
                                 onChange={(event) => this.handleOnChangeInput(event, 'address')}
+                            />
+                        </div>
+
+                        <div className='col-4 form-group'>
+                            <label><FormattedMessage id="admin.manage-doctor.province" /></label>
+                            <Select
+                                value={this.state.selectedProvince}
+                                onChange={this.handleChangeSelectDoctorInfor}
+                                options={this.state.listProvince}
+                                placeholder={<FormattedMessage id="admin.manage-doctor.province" />}
+                                name="selectedProvince"
                             />
                         </div>
 
