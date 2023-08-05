@@ -125,22 +125,21 @@ class ManagePatient extends Component {
             this.setState({
                 isShowLoading: false
             })
-            toast.success('Send Remedy succeeds');
+            toast.success('Gửi hóa đơn thành công');
             this.closeRemedyModal();
             await this.getDataPatient();
         } else {
             this.setState({
                 isShowLoading: false
             })
-            toast.error('Something wrongs....');
+            toast.error('Gửi thất bại');
             console.log('error send remedy: ', res)
         }
     }
 
 
     render() {
-        console.log('state: ', this.state)
-        let { dataPatient, isOpenRemedyModal, dataModal } = this.state;
+        let { dataPatient, isOpenRemedyModal, dataModal,currentDate } = this.state;
         let { language } = this.props;
 
         return (
@@ -219,6 +218,7 @@ class ManagePatient extends Component {
                         dataModal={dataModal}
                         closeRemedyModal={this.closeRemedyModal}
                         sendRemedy={this.sendRemedy}
+                        currentDate={currentDate}
                     />
                 </LoadingOverlay>
             </>

@@ -7,6 +7,7 @@ export const path = {
     DETAIL_DOCTOR: '/detail-doctor/:id',
     DETAIL_SPCIALTY: '/detail-specialty/:id',
     DETAIL_CLINIC: '/detail-clinic/:id',
+    DETAIL_EXAMINATION_HISTORY: '/detail-examination-history/:id',
 
 
     VERIFY_EMAIL_BOOKING: '/verify-booking',

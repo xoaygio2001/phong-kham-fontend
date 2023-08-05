@@ -13,6 +13,10 @@ import Search from './Section/Search';
 
 import { getAllClinic } from '../../services/userService'
 
+import ExaminationHistoryModal from '../Patient/Doctor/Modal/ExaminationHistoryModal';
+
+import { Link } from 'react-router-dom';
+
 // const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name']
 
 const KEYS_TO_FILTERS = ['id', 'name']
@@ -24,7 +28,7 @@ class HomeHeader extends Component {
         this.state = {
             dataClinic: [],
             searchTerm: '',
-            clickSearch: false
+            isOpenModalBooking: false
         }
         this.searchUpdated = this.searchUpdated.bind(this)
     }
@@ -65,6 +69,18 @@ class HomeHeader extends Component {
 
     }
 
+    handleClickScheduleTime = () => {
+        this.setState({
+            isOpenModalBooking: true,
+        })
+    }
+
+    closeBookingClose = () => {
+        this.setState({
+            isOpenModalBooking: false
+        })
+    }
+
     render() {
         const filteredEmails = this.state.dataClinic.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
 
@@ -95,7 +111,21 @@ class HomeHeader extends Component {
                             </div>
 
                         </div>
+
+
+
                         <div className="right-content">
+                            <ExaminationHistoryModal
+                                isOpenModal={this.state.isOpenModalBooking}
+                                closeBookingClose={this.closeBookingClose}
+                                dataTime={null}
+                                doctorId={1}
+                            />
+                            <div onClick={() => this.handleClickScheduleTime()} className="support fake">
+                                <i  class="fab fa-searchengin"></i>
+                                <div className="sub-titile">Tra cứu lịch sử khám</div>
+                            </div>
+
                             <div className="support">
                                 <i className="far fa-question-circle"></i>
                                 <div className="sub-titile"><FormattedMessage id="home-header.support" /></div>

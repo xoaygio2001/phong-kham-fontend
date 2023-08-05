@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import './BookingModal.scss';
+import './ExaminationHistoryModal.scss';
 import { Form, Modal } from 'reactstrap';
 import ProfileDoctor from '../ProfileDoctor';
 import _ from 'lodash';
@@ -9,12 +9,16 @@ import DatePicker from '../../../../components/Input/DatePicker';
 import * as actions from '../../../../store/actions';
 import { LANGUAGES } from '../../../../utils';
 import Select from 'react-select';
-import { postPatientBookAppointment } from '../../../../services/userService';
+import { postPatientBookAppointment, getPatientByGmail } from '../../../../services/userService';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import LoadingOverlay from 'react-loading-overlay';
 
-class BookingModal extends Component {
+import { withRouter } from 'react-router';
+
+
+
+class ExaminationHistoryModal extends Component {
 
     constructor(props) {
         super(props);
@@ -29,6 +33,7 @@ class BookingModal extends Component {
             doctorId: '',
             genders: '',
             timeType: '',
+            gmail: '',
             isShowLoading: false
         }
     }
@@ -171,12 +176,34 @@ class BookingModal extends Component {
         } else {
 
             if (res && res.errCode === 0) {
-                toast.success('Đặt lịch thành công!');
+                toast.success('Booking a new appointment succeed!');
                 this.props.closeBookingClose();
             } else {
-                toast.error(res.errMessage)
+                toast.error('Vui lòng kiểm tra lại địa chỉ email!')
             }
         }
+    }
+
+    handleChangeGmail = (event) => {
+        this.setState({
+            gmail: event.target.value
+        })
+    }
+
+    handleSearchData = async () => {
+        if (this.state.gmail != '') {
+            var res = await getPatientByGmail(this.state.gmail);
+            if (res && res.data && res.data.id) {
+                if (this.props.history) {
+                    this.props.history.push(`/detail-examination-history/${res.data.id}`);
+                }
+            }
+            else {
+                toast.error("Gmail không tồn tại trong hệ thống");
+            }
+
+        }
+
     }
 
     render() {
@@ -205,7 +232,7 @@ class BookingModal extends Component {
                     <div className='booking-modal-content'>
                         <div className='booking-modal-header'>
                             <span className='left'>
-                                <FormattedMessage id="patient.booking-modal.title" />
+                                Tra cứu lịch sử khám
                             </span>
                             <span
                                 className='right'
@@ -215,74 +242,19 @@ class BookingModal extends Component {
                         </div>
                         <div className='booking-modal-body'>
                             {/* */}
-                            <div className='doctor-infor'>
-                                <ProfileDoctor
-                                    doctorId={doctorId}
-                                    isShowDescriptionDoctor={false}
-                                    dataTime={dataTime}
-                                    isShowLinkDetail={false}
-                                    isShowPrice={true}
+                            <label>
+                                Gmail
+                            </label>
+
+                            <div className='input-comment'>
+                                <input className='form-control'
+                                    placeholder='Nhập tài khoản Gmail mà bạn đã đăng ký khám vào đây'
+                                    onChange={(event) => this.handleChangeGmail(event)}
+                                    value={this.state.gmail}
                                 />
+                                <button onClick={() => this.handleSearchData()}>Tìm</button>
                             </div>
-                            <div className='row'>
-                                <div className='col-6 form-group'>
-                                    <label>
-                                        <FormattedMessage id="patient.booking-modal.fullName" />
-                                    </label>
-                                    <input className='form-control'
-                                        value={this.state.fullName}
-                                        onChange={(event) => this.handleOnChangeInput(event, 'fullName')}
-                                    />
-                                </div>
-                                <div className='col-6 form-group'>
-                                    <label>
-                                        <FormattedMessage id="patient.booking-modal.phoneNumber" />
-                                    </label>
-                                    <input className='form-control'
-                                        value={this.state.phoneNumber}
-                                        onChange={(event) => this.handleOnChangeInput(event, 'phoneNumber')}
-                                    />
-                                </div>
-                                <div className='col-6 form-group'>
-                                    <label><FormattedMessage id="patient.booking-modal.email" /></label>
-                                    <input className='form-control'
-                                        value={this.state.email}
-                                        onChange={(event) => this.handleOnChangeInput(event, 'email')}
-                                    />
-                                </div>
-                                <div className='col-6 form-group'>
-                                    <label><FormattedMessage id="patient.booking-modal.address" /></label>
-                                    <input className='form-control'
-                                        value={this.state.address}
-                                        onChange={(event) => this.handleOnChangeInput(event, 'address')}
-                                    />
-                                </div>
 
-                                <div className='col-12 form-group'>
-                                    <label><FormattedMessage id="patient.booking-modal.reason" /></label>
-                                    <input className='form-control'
-                                        value={this.state.reason}
-                                        onChange={(event) => this.handleOnChangeInput(event, 'reason')}
-                                    />
-                                </div>
-
-                                <div className='col-6 form-group'>
-                                    <label><FormattedMessage id="patient.booking-modal.birthday" /></label>
-                                    <DatePicker
-                                        onChange={this.handleOnChangeDatePicker}
-                                        className="form-control"
-                                        value={this.state.birthday}
-                                    />
-                                </div>
-                                <div className='col-6 form-group'>
-                                    <label><FormattedMessage id="patient.booking-modal.gender" /></label>
-                                    <Select
-                                        value={this.state.selectedGender}
-                                        onChange={this.handleChangeSelect}
-                                        options={this.state.genders}
-                                    />
-                                </div>
-                            </div>
                         </div>
                         <div className='booking-modal-footer'>
                             <button className='btn-booking-confirm'
@@ -317,4 +289,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ExaminationHistoryModal));

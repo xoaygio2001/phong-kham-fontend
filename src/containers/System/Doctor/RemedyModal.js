@@ -7,6 +7,10 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import { CommonUtils } from '../../../utils';
 
+import { createNewHistory } from '../../../services/userService';
+
+
+
 class RemedyModal extends Component {
 
     constructor(props) {
@@ -52,11 +56,21 @@ class RemedyModal extends Component {
         }
     }
 
-    handleSendRemedy = () => {
-        this.props.sendRemedy(this.state)
+    handleSendRemedy = async () => {
+        if (this.state.email != '' && this.state.imgBase64 != '' && this.props.currentDate) {
+            await createNewHistory({
+                patientId: this.props.dataModal.patientId,
+                doctorId: this.props.dataModal.doctorId,
+                date: this.props.currentDate,
+                image: this.state.imgBase64
+            })
+            await this.props.sendRemedy(this.state)
+        }
     }
 
     render() {
+        console.log('prop: ', this.props)
+
         let { isOpenModal, closeRemedyModal, dataModal, sendRemdy } = this.props;
 
         return (

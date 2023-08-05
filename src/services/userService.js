@@ -118,6 +118,10 @@ const getCommentByDoctorId = (doctorId) => {
     return axios.get(`/api/get-comment-by-doctorId?doctorId=${doctorId}`);
 }
 
+const getPatientByGmail = (gmail) => {
+    return axios.get(`/api/get-patient-by-gmail?gmail=${gmail}`);
+}
+
 const postWarningPatient = (data) => {
     return axios.post('/api/post-warning-patient', data);
 }
@@ -146,6 +150,16 @@ const DeleteClinic = (inputId) => {
     });
 }
 
+const createNewHistory = (data) => {
+    return axios.post('/api/crate-new-history', data);
+}
+
+const getPatientData = (patientId) => {
+    return axios.get(`/api/get-patient-data-by-id?patientId=${patientId}`);
+}
+
+
+
 
 export {
     handleLogin, getAllUsers,
@@ -162,6 +176,7 @@ export {
     getAllPatientForDoctor, postSendRemedy,
     submitComment, getCommentByDoctorId, postWarningPatient,
     postDeleteSchedule, EditSpecialty, DeleteSpecialty,
-    EditClinic, DeleteClinic
+    EditClinic, DeleteClinic, getPatientByGmail,
+    createNewHistory, getPatientData
 
 }
