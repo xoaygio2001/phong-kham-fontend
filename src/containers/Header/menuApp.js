@@ -29,7 +29,7 @@ export const adminMenu = [
         menus: [
             {
                 name: 'menu.admin.manage-clinic',
-                link: '/system/manage-clinic    '
+                link: '/system/manage-clinic'
             }
         ]
 

@@ -21,6 +21,7 @@ import DeleteSchedule from './Patient/DeleteSchedule';
 import DetailSpecialty from './Patient/Specialty/DetailSpecialty';
 import DetailClinic from './Patient/Clinic/DetailClinic';
 import DetailExaminationHistory from './Patient/Clinic/DetailExaminationHistory';
+import DetailHandbook from './Patient/Handbook/DetailHandbook';
 
 class App extends Component {
 
@@ -61,6 +62,7 @@ class App extends Component {
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                     <Route path={path.DELETE_SCHEDULE} component={DeleteSchedule} />
                                     <Route path={path.DETAIL_EXAMINATION_HISTORY} component={DetailExaminationHistory} />
+                                    <Route path={path.DETAIL_HANDBOOK} component={DetailHandbook} />
 
                                 </Switch>
                             </CustomScrollbars>

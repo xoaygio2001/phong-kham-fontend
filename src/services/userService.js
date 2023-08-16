@@ -158,6 +158,18 @@ const getPatientData = (patientId) => {
     return axios.get(`/api/get-patient-data-by-id?patientId=${patientId}`);
 }
 
+const createNewHandbook = (data) => {
+    return axios.post('/api/create-new-handbook', data)
+}
+
+const getAllHandbook = () => {
+    return axios.get(`/api/get-handbook`)
+}
+
+const getAllDetailHandbookById = (data) => {
+    return axios.get(`/api/get-detail-handbook-by-id?id=${data.id}&location=${data.location}`);
+}
+
 
 
 
@@ -177,6 +189,7 @@ export {
     submitComment, getCommentByDoctorId, postWarningPatient,
     postDeleteSchedule, EditSpecialty, DeleteSpecialty,
     EditClinic, DeleteClinic, getPatientByGmail,
-    createNewHistory, getPatientData
+    createNewHistory, getPatientData, createNewHandbook,
+    getAllHandbook, getAllDetailHandbookById
 
 }
