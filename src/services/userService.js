@@ -90,6 +90,12 @@ const getAllSpecialty = () => {
 const getAllClinic = () => {
     return axios.get(`/api/get-clinic`)
 }
+
+const getAllClinicByPageNumber = (limit,pageNumber) => {
+    return axios.get(`/api/get-clinic-by-pagenumber?limit=${limit}&pageNumber=${pageNumber}`)
+}
+
+
 const getAllDetailSpecialtyById = (data) => {
     return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`);
 }
@@ -170,6 +176,17 @@ const getAllDetailHandbookById = (data) => {
     return axios.get(`/api/get-detail-handbook-by-id?id=${data.id}&location=${data.location}`);
 }
 
+const getAllDoctorVer2 = (limit,pageNumber) => {
+    return axios.get(`/api/get-all-doctor-ver2?limit=${limit}&pageNumber=${pageNumber}`);
+}
+
+const getAllHandbookVer2 = (limit,pageNumber) => {
+    return axios.get(`/api/get-all-handbook-ver2?limit=${limit}&pageNumber=${pageNumber}`);
+}
+
+
+
+
 
 
 
@@ -190,6 +207,8 @@ export {
     postDeleteSchedule, EditSpecialty, DeleteSpecialty,
     EditClinic, DeleteClinic, getPatientByGmail,
     createNewHistory, getPatientData, createNewHandbook,
-    getAllHandbook, getAllDetailHandbookById
+    getAllHandbook, getAllDetailHandbookById,
+    getAllClinicByPageNumber, getAllDoctorVer2,
+    getAllHandbookVer2
 
 }

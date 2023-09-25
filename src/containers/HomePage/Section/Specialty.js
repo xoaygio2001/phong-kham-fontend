@@ -33,6 +33,12 @@ class Specialty extends Component {
         }
     }
 
+    handleGoToSpecialty = () => {
+        if (this.props.history) {
+            this.props.history.push(`/specialty`)
+        }
+    }
+
 
     render() {
 
@@ -44,7 +50,7 @@ class Specialty extends Component {
                         <span className="title-section">
                             <FormattedMessage id="homepage.specialty-poplular" />
                         </span>
-                        <button className="btn-section">
+                        <button onClick={() => this.handleGoToSpecialty()} className="btn-section">
                             <FormattedMessage id="homepage.more-infor" />
                         </button>
                     </div>
@@ -59,7 +65,7 @@ class Specialty extends Component {
                                             onClick={() => this.handleViewDetailSpecialty(item)}
                                         >
                                             <div
-                                                className='bg-image section-specialty'
+                                                className='bg-image section-specialty-home'
                                                 style={{ backgroundImage: `url(${item.image})` }}
                                             />
 

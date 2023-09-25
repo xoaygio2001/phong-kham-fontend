@@ -184,7 +184,7 @@ class ManageHandbook extends Component {
             if (type === 'USERS') {
                 inputData.map((item, index) => {
                     let object = {};
-                    object.label = item.title
+                    object.label = item.title + ` (ID: ${item.id})`;
                     object.value = item.id;
                     result.push(object);
                 })

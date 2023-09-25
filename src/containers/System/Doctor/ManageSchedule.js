@@ -68,8 +68,8 @@ class ManageSchedule extends Component {
         if (inputData && inputData.length > 0) {
             inputData.map((item, index) => {
                 let object = {};
-                let labelVi = `${item.lastName} ${item.firstName}`;
-                let labelEn = `${item.firstName} ${item.lastName}`;
+                let labelVi = `${item.lastName} ${item.firstName} (ID: ${item.id})`;
+                let labelEn = `${item.firstName} ${item.lastName} (ID: ${item.id})`;
                 object.label = language === LANGUAGES.VI ? labelVi : labelEn;
                 object.value = item.id;
                 object.roleId = item.roleId

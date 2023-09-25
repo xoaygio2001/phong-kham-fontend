@@ -105,6 +105,7 @@ class DetailSpecialty extends Component {
 
 
     render() {
+
         let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state;
         let { language } = this.props;
         return (

@@ -63,8 +63,8 @@ class ManageDoctor extends Component {
             if (type === 'USERS') {
                 inputData.map((item, index) => {
                     let object = {};
-                    let labelVi = `${item.lastName} ${item.firstName}`;
-                    let labelEn = `${item.firstName} ${item.lastName}`;
+                    let labelVi = `${item.lastName} ${item.firstName} (ID: ${item.id})`;
+                    let labelEn = `${item.firstName} ${item.lastName} (ID: ${item.id})`;
                     object.label = language === LANGUAGES.VI ? labelVi : labelEn;
                     object.value = item.id;
                     result.push(object);
@@ -280,6 +280,7 @@ class ManageDoctor extends Component {
     }
 
     render() {
+        console.log('state: ', this.state)
         let { hasOldData } = this.state;
         return (
             <div className='manage-doctor-container'>

@@ -36,6 +36,12 @@ class OutStandingDoctor extends Component {
 
     }
 
+    handleGoToDoctor = () => {
+        if (this.props.history) {
+            this.props.history.push(`/all-doctor/1`)
+        }
+    }
+
     render() {
         let arrDoctors = this.state.arrDoctors;
         let { language } = this.props;
@@ -47,7 +53,7 @@ class OutStandingDoctor extends Component {
                         <span className="title-section">
                             <FormattedMessage id="homepage.outstanding-doctor" />
                         </span>
-                        <button className="btn-section">
+                        <button onClick={() => this.handleGoToDoctor()} className="btn-section">
                             <FormattedMessage id="homepage.more-infor" />
                         </button>
                     </div>

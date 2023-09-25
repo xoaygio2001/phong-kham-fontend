@@ -181,7 +181,7 @@ class ManageSpecialty extends Component {
             if (type === 'USERS') {
                 inputData.map((item, index) => {
                     let object = {};
-                    object.label = item.name
+                    object.label = item.name + ` (ID: ${item.id})`;
                     object.value = item.id;
                     result.push(object);
                 })
