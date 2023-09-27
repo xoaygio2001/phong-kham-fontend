@@ -171,7 +171,7 @@ class BookingModal extends Component {
         } else {
 
             if (res && res.errCode === 0) {
-                toast.success('Đặt lịch thành công!');
+                toast.success('Đặt lịch thành công. Vui lòng kiểm tra email để xác nhận!');
                 this.props.closeBookingClose();
             } else {
                 toast.error(res.errMessage)
