@@ -24,7 +24,7 @@ class AllDoctor extends Component {
             arrInfor: [],
             arrDoctor: [],
             maxDataNumber: 0,
-            limit: 2
+            limit: 10
         }
     }
 

@@ -26,7 +26,7 @@ class AllHandbook extends Component {
             arrSpecialty: [],
             arrClinic: [],
 
-            limit: 2,
+            limit: 10,
             maxDataNumber: 0,
         }
     }
