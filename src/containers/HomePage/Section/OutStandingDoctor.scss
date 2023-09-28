@@ -1,15 +1,18 @@
-.section-outstanding-doctor{
-    background-color: #ffffff !important;
-}
+.chanvaichuong {
 
-.clinic-child {
-    cursor: pointer;
+    .section-outstanding-doctor {
+        background-color: #ffffff !important;
+    }
 
-    .clinic-name {
-        padding: 10px 0;
+    .clinic-child {
+        cursor: pointer;
 
-        &:hover {
-            color: #45c3d2;
+        .clinic-name {
+            padding: 10px 0;
+
+            &:hover {
+                color: #45c3d2;
+            }
         }
     }
 }

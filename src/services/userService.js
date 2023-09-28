@@ -91,7 +91,7 @@ const getAllClinic = () => {
     return axios.get(`/api/get-clinic`)
 }
 
-const getAllClinicByPageNumber = (limit,pageNumber) => {
+const getAllClinicByPageNumber = (limit, pageNumber) => {
     return axios.get(`/api/get-clinic-by-pagenumber?limit=${limit}&pageNumber=${pageNumber}`)
 }
 
@@ -172,15 +172,23 @@ const getAllHandbook = () => {
     return axios.get(`/api/get-handbook`)
 }
 
+const editHandbook = (data) => {
+    return axios.post(`/api/edit-handbook`, data)
+}
+
+const deleteHandbook = (data) => {
+    return axios.post(`/api/delete-handbook`, data)
+}
+
 const getAllDetailHandbookById = (data) => {
     return axios.get(`/api/get-detail-handbook-by-id?id=${data.id}&location=${data.location}`);
 }
 
-const getAllDoctorVer2 = (limit,pageNumber) => {
+const getAllDoctorVer2 = (limit, pageNumber) => {
     return axios.get(`/api/get-all-doctor-ver2?limit=${limit}&pageNumber=${pageNumber}`);
 }
 
-const getAllHandbookVer2 = (limit,pageNumber) => {
+const getAllHandbookVer2 = (limit, pageNumber) => {
     return axios.get(`/api/get-all-handbook-ver2?limit=${limit}&pageNumber=${pageNumber}`);
 }
 
@@ -209,6 +217,6 @@ export {
     createNewHistory, getPatientData, createNewHandbook,
     getAllHandbook, getAllDetailHandbookById,
     getAllClinicByPageNumber, getAllDoctorVer2,
-    getAllHandbookVer2
+    getAllHandbookVer2, editHandbook, deleteHandbook
 
 }

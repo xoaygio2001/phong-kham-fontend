@@ -20,7 +20,7 @@ class About extends Component {
                     <div className="content-left">
                         <iframe
                             width="100%"
-                            height="400"
+                            height="350"
                             src="https://www.youtube.com/embed/7tiR7SI4CkI"
                             title="YouTube video player"
                             frameBorder="0"

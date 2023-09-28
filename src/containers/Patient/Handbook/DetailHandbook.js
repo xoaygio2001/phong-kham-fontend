@@ -48,7 +48,7 @@ class DetailHandbook extends Component {
         let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state;
         let { language } = this.props;
         return (
-            <div className='detail-specialty-container'>
+            <div className='detail-handbook-container'>
                 <HomeHeader />
                 <div className='detail-specialty-body'>
                     <div className='title'>{dataDetailSpecialty.title}</div>

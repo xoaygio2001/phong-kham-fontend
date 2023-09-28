@@ -33,6 +33,11 @@ class HandBook extends Component {
         }
     }
 
+    goToHandbook = () => {
+        if (this.props.history) {
+            this.props.history.push(`/handbook/1`)
+        }
+    }
 
     render() {
 
@@ -45,7 +50,7 @@ class HandBook extends Component {
                             {/* <FormattedMessage id="homepage.specialty-poplular" /> */}
                             Cẩm nan
                         </span>
-                        <button className="btn-section">
+                        <button onClick={() => this.goToHandbook()}   className="btn-section">
                             <FormattedMessage id="homepage.more-infor" />
                         </button>
                     </div>

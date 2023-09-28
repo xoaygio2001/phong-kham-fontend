@@ -13,7 +13,9 @@ import {
     DeleteSpecialty,
     createNewHandbook,
     getAllHandbook,
-    getAllDetailHandbookById
+    getAllDetailHandbookById,
+    editHandbook,
+    deleteHandbook
 } from "../../../services/userService";
 
 import { toast } from "react-toastify";
@@ -129,9 +131,16 @@ class ManageHandbook extends Component {
                 return;
             }
 
-            let res = await EditSpecialty(this.state);
+            let res = await editHandbook({
+                id: this.state.id,
+                title: this.state.name,
+                contentHTML: this.state.descriptionHTML,
+                contentMarkdown: this.state.descriptionMarkdown,
+                contentMarkdown: this.state.descriptionMarkdown,
+                imageBase64: this.state.imageBase64
+            });
             if (res && res.errCode === 0) {
-                toast.success('Sửa thông tin chuyên khoa thành công!')
+                toast.success('Sửa thông tin cẩm nan thành công!')
                 this.setState({
                     id: '',
                     name: '',
@@ -142,22 +151,24 @@ class ManageHandbook extends Component {
                     selectedOption: ''
                 })
             } else {
-                toast.error('Sửa thông tin chuyên khoa thất bại....')
+                toast.error('Sửa thông tin cẩm nan thất bại....')
                 console.log('>> hoi dan it check res: ', res)
             }
         }
 
         if (type == 'delete') {
             if (!this.state.id) {
-                toast.error('Chưa có chuyên khoa nào được chọn!');
+                toast.error('Chưa có cẩm nan nào được chọn!');
                 return;
             }
 
             if (!window.confirm("Bạn có thật sự muốn xóa!")) { return; }
 
-            let res = await DeleteSpecialty(this.state.id);
+            let res = await deleteHandbook({
+                id: this.state.id
+            });
             if (res && res.errCode === 0) {
-                toast.success('Xóa thông tin chuyên khoa thành công!')
+                toast.success('Xóa thông tin cẩm nan thành công!')
                 this.setState({
                     id: '',
                     name: '',
@@ -168,12 +179,11 @@ class ManageHandbook extends Component {
                     selectedOption: ''
                 })
             } else {
-                toast.error('Xóa thông tin chuyên khoa thất bại....')
+                toast.error('Xóa thông tin cẩm nan thất bại....')
                 console.log('>> hoi dan it check res: ', res)
             }
         }
 
-        this.getAllSpecialty()
 
     }
 

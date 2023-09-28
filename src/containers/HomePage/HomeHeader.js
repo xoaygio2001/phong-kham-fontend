@@ -121,7 +121,7 @@ class HomeHeader extends Component {
                                 dataTime={null}
                                 doctorId={1}
                             />
-                            <div onClick={() => this.handleClickScheduleTime()} className="support fake">
+                            <div onClick={() => this.handleClickScheduleTime()} className="tracuu">
                                 <i  class="fab fa-searchengin"></i>
                                 <div className="sub-titile">Tra cứu lịch sử khám</div>
                             </div>

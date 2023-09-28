@@ -102,7 +102,13 @@ class AllDoctor extends Component {
         let arrPage = [];
 
         if (currentPage == 1) {
-            arrPage = [1, 2, maxPageNumber]
+            if(maxPageNumber > 3) {
+                arrPage = [1, 2, maxPageNumber]
+            } else if(maxPageNumber == 2) {
+                arrPage = [1, 2]
+            } else {
+                arrPage = [1]
+            }
         }
         if (currentPage == 2) {
             arrPage = [1, 2, 3, maxPageNumber]

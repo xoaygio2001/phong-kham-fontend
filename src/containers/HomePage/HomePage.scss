@@ -1,4 +1,8 @@
 .slick-prev {
+    @media screen and (max-width: 500px) {
+        display: none !important;
+    }
+
     left: -10px !important;
     z-index: 1000 !important;
     height: 48px !important;
@@ -18,6 +22,10 @@
 }
 
 .slick-next {
+    @media screen and (max-width: 500px) {
+        display: none !important;
+    }
+
     right: -10px !important;
     z-index: 1000 !important;
     height: 48px !important;
@@ -52,10 +60,21 @@
     }
 
     .section-body {
+
         .section-customize {
+            
+
+
+
             .bg-image {
+                @media screen and (max-width: 500px) {
+                    width: 120px !important;
+                    height: 70px !important;
+                }
+
                 width: 278px;
                 height: 150px;
+
                 background-position: center center;
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -71,10 +90,18 @@
                 }
 
                 &.section-outstanding-doctor {
-                    // background-image: url('../../assets/images/bacsinoibat.jpg');
+                    @media screen and (max-width: 500px) {
+                        width: 200px !important;
+                        height: 70px !important;
+                        border-radius: 50%;
+
+                    }
+                    
                     width: 120px;
                     height: 120px;
                     border-radius: 50%;
+
+
                 }
 
                 &.section-handbook {
@@ -96,11 +123,16 @@
     height: 330px;
 
     .section-container {
+        @media screen and (max-width: 500px) {
+            margin: 0px 10px !important;
+        }
+
         margin: 0 100px;
         display: flex;
         flex-direction: column;
 
         .section-header {
+
             height: 60px;
             margin-bottom: 30px;
             margin-top: 30px;
@@ -163,6 +195,9 @@
 }
 
 .section-about {
+    @media screen and (max-width: 500px) {
+        margin: 0px !important;
+    }
     margin: 0 100px;
 
 
@@ -173,14 +208,23 @@
     }
 
     .section-about-content {
+        @media screen and (max-width: 500px) {
+           gap: 0px;
+        }
         display: flex;
         gap: 15px;
 
         .content-left {
-            width: 60%;
+            @media screen and (max-width: 500px) {
+                width: 100% !important;
+            }
+            width: 40%;
         }
 
         .content-right {
+            @media screen and (max-width: 500px) {
+                width: 0%;
+            }
             width: 40%;
 
             p {
