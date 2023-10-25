@@ -81,6 +81,29 @@ class HomeHeader extends Component {
         })
     }
 
+    findByOptions = (key) => {
+        switch (key) {
+            case 'DOCTOR_BY_SPECIALTY':
+                if (this.props.history) {
+                    this.props.history.push(`/specialty`)
+                }
+                break;
+
+            case 'CLINIC':
+                if (this.props.history) {
+                    this.props.history.push(`/clinic/1`)
+                }
+                break;
+
+            case 'DOCTOR':
+                if (this.props.history) {
+                    this.props.history.push(`/all-doctor/1`)
+                }
+                break;
+
+        }
+    }
+
     render() {
         const filteredEmails = this.state.dataClinic.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
 
@@ -95,15 +118,15 @@ class HomeHeader extends Component {
                         <div className="center-content">
                             <div className="child-content">
                                 <div><b><FormattedMessage id="home-header.speciality" /></b></div>
-                                <div className="sub-titile"><FormattedMessage id="home-header.search-doctor" /></div>
+                                <div onClick={() => this.findByOptions('DOCTOR_BY_SPECIALTY')} className="sub-titile"><FormattedMessage id="home-header.search-doctor" /></div>
                             </div>
                             <div className="child-content">
                                 <div><b><FormattedMessage id="home-header.health-facility" /></b></div>
-                                <div className="sub-titile"><FormattedMessage id="home-header.select-room" /></div>
+                                <div onClick={() => this.findByOptions('CLINIC')} className="sub-titile"><FormattedMessage id="home-header.select-room" /></div>
                             </div>
                             <div className="child-content">
                                 <div><b><FormattedMessage id="home-header.doctor" /></b></div>
-                                <div className="sub-titile"><FormattedMessage id="home-header.select-doctor" /></div>
+                                <div onClick={() => this.findByOptions('DOCTOR')} className="sub-titile"><FormattedMessage id="home-header.select-doctor" /></div>
                             </div>
                             <div className="child-content">
                                 <div><b><FormattedMessage id="home-header.fee" /></b></div>
@@ -122,7 +145,7 @@ class HomeHeader extends Component {
                                 doctorId={1}
                             />
                             <div onClick={() => this.handleClickScheduleTime()} className="tracuu">
-                                <i  class="fab fa-searchengin"></i>
+                                <i class="fab fa-searchengin"></i>
                                 <div className="sub-titile">Tra cứu lịch sử khám</div>
                             </div>
 
