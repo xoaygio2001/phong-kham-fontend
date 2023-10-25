@@ -48,11 +48,13 @@
             align-items: center;
 
             .child-content {
-                .sub-title {
+
+
+                .sub-titile {
+                    cursor: pointer;
                     font-weight: 400;
                     font-size: 12px;
 
-                    cursor: pointer;
                 }
             }
 
