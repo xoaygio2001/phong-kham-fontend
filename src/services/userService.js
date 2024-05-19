@@ -9,6 +9,12 @@ const getAllUsers = (inputId) => {
     return axios.get(`/api/get-all-users?id=${inputId}`);
 }
 
+const getUserByPageNumber = (limit,pageNumber) => {
+    return axios.get(`/api/get-user-by-page-number?limit=${limit}&pageNumber=${pageNumber}`);
+}
+
+
+
 const createNewUserService = (data) => {
     return axios.post('/api/create-new-user',
         {
@@ -91,6 +97,21 @@ const getAllClinic = () => {
     return axios.get(`/api/get-clinic`)
 }
 
+const getSuggestClinicByRegion = (limit,region) => {
+    return axios.get(`/api/get-suggest-clinic-by-region?limit=${limit}&region=${region}`)
+}
+
+const getOutstandingClinic = (limit) => {
+    return axios.get(`/api/get-outstanding-clinic?limit=${limit}`)
+}
+
+const getClinicByKeyWord = (keyWord) => {
+    return axios.get(`/api/get-clinic-by-key-word?keyWord=${keyWord}`)
+}
+
+
+
+
 const getAllClinicByPageNumber = (limit, pageNumber) => {
     return axios.get(`/api/get-clinic-by-pagenumber?limit=${limit}&pageNumber=${pageNumber}`)
 }
@@ -98,6 +119,10 @@ const getAllClinicByPageNumber = (limit, pageNumber) => {
 
 const getAllDetailSpecialtyById = (data) => {
     return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`);
+}
+
+const getOutstandingSpecialties = (limit) => {
+    return axios.get(`/api/get-outstanding-specialty?limit=${limit}`);
 }
 
 const getAllDetailClinicById = (data) => {
@@ -120,9 +145,21 @@ const submitComment = (data) => {
     return axios.post('/api/submit-comment-by-email', data);
 }
 
+const deleteComment = (data) => {
+    return axios.post('/api/delete-comment', data);
+}
+
+
+
 const getCommentByDoctorId = (doctorId) => {
     return axios.get(`/api/get-comment-by-doctorId?doctorId=${doctorId}`);
 }
+
+const getCommentByPageNumber = (limit,pageNumber) => {
+    return axios.get(`/api/get-comment-by-pagenumber?limit=${limit}&pageNumber=${pageNumber}`);
+}
+
+
 
 const getPatientByGmail = (gmail) => {
     return axios.get(`/api/get-patient-by-gmail?gmail=${gmail}`);
@@ -188,6 +225,12 @@ const getAllDoctorVer2 = (limit, pageNumber) => {
     return axios.get(`/api/get-all-doctor-ver2?limit=${limit}&pageNumber=${pageNumber}`);
 }
 
+const getOutstandingDoctors = (limit) => {
+    return axios.get(`/api/get-outstanding-doctors?limit=${limit}`);
+}
+
+
+
 const getAllHandbookVer2 = (limit, pageNumber) => {
     return axios.get(`/api/get-all-handbook-ver2?limit=${limit}&pageNumber=${pageNumber}`);
 }
@@ -217,6 +260,9 @@ export {
     createNewHistory, getPatientData, createNewHandbook,
     getAllHandbook, getAllDetailHandbookById,
     getAllClinicByPageNumber, getAllDoctorVer2,
-    getAllHandbookVer2, editHandbook, deleteHandbook
+    getAllHandbookVer2, editHandbook, deleteHandbook,
+    getSuggestClinicByRegion,getOutstandingClinic, getOutstandingSpecialties,
+    getCommentByPageNumber, deleteComment, getOutstandingDoctors,
+    getUserByPageNumber,  getClinicByKeyWord
 
 }

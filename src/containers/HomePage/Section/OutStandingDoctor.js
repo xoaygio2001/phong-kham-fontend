@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
 import { withRouter } from 'react-router';
+import { getOutstandingDoctors } from '../../../services/userService'
 import './OutStandingDoctor.scss';
 
 
@@ -12,7 +13,9 @@ class OutStandingDoctor extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            arrDoctors: []
+            arrDoctors: [],
+            arrOutstandingDoctors: [],
+            limit: 8
         }
     }
 
@@ -25,8 +28,20 @@ class OutStandingDoctor extends Component {
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.loadTopDoctors();
+        await this.setDataDoctor();
+
+    }
+
+    setDataDoctor = async () => {
+        const res = await getOutstandingDoctors(8)
+        if(res && res.errCode == 0) {
+            this.setState({
+                arrOutstandingDoctors: res.data
+            })
+        }
+
     }
 
     handleViewDetailDoctor = (doctor) => {
@@ -45,56 +60,10 @@ class OutStandingDoctor extends Component {
     render() {
         let arrDoctors = this.state.arrDoctors;
         let { language } = this.props;
+        let { arrOutstandingDoctors } = this.state
 
         return (
-            <div className="section-share section-outstanding-doctor">
-                <div className="section-container">
-                    <div className="section-header">
-                        <span className="title-section">
-                            <FormattedMessage id="homepage.outstanding-doctor" />
-                        </span>
-                        <button onClick={() => this.handleGoToDoctor()} className="btn-section">
-                            <FormattedMessage id="homepage.more-infor" />
-                        </button>
-                    </div>
-                    <div className="section-body">
-                        <Slider {...this.props.settings}>
-
-                            {arrDoctors && arrDoctors.length > 0
-                                && arrDoctors.map((item, index) => {
-                                    let imageBase64 = '';
-                                    if (item.image) {
-                                        imageBase64 = new Buffer(item.image, 'base64').toString('binary')
-                                    }
-                                    let nameVi = `${item.positionData.valueVi}. ${item.lastName} ${item.firstName}`;
-                                    let nameEn = `${item.positionData.valueEn}. ${item.firstName} ${item.lastName}`;
-                                    return (
-                                        <div className="section-customize" key={index} onClick={() => this.handleViewDetailDoctor(item)}>
-                                            <div className="customize-border">
-                                                <div className="outer-bg">
-                                                    <div className="bg-image section-outstanding-doctor chanvaichuong"
-                                                        style={{ backgroundImage: `url(${imageBase64})` }}
-                                                    />
-                                                </div>
-                                                <div className="position text-center">
-                                                    <div className='content-doctor'>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
-                                                    <span>
-                                                        {item.Doctor_Infor
-                                                            && item.Doctor_Infor.SpecialtyTypeData
-                                                            && item.Doctor_Infor.SpecialtyTypeData.name ?
-                                                            item.Doctor_Infor.SpecialtyTypeData.name : 'Chưa có thông tin chuyên khoa'
-                                                        }
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </Slider>
-                    </div>
-                </div>
-            </div>
+            <>outstanding doctor</>
         );
     }
 

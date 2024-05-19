@@ -26,20 +26,3 @@
     background-color: #04AA4D;
     color: white;
 }
-
-
-.bottom-navigate-table{
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-
-    .page-number{
-        font-size: 22px;
-    }
-    
-    .navigate-btn{
-        .go-back{
-            margin-right: 15px;
-        }
-    }
-}

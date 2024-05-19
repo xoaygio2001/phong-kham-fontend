@@ -13,11 +13,7 @@ class About extends Component {
     render() {
         return (
             <div className="home-footer">
-                <p>&copy; 2022 Bookingcare More infomation, please visit my youtube channel.
-                    <a target="_blank" href="https://www.facebook.com/xoaygio2001">
-                        &#8594; Click me &#8592;
-                    </a></p>
-
+                <p>Copyright © 2023 - 2024 Juri Booking</p>
             </div>
         );
     }

@@ -190,7 +190,8 @@ class DetailExaminationHistory extends Component {
                                         </div>
                                         <div className='body-patient'>
                                             <div>Họ tên: <span>{item.patientHistoryData.firstName}</span></div>
-                                            <div>Ngày sinh: <span>{moment(item.patientHistoryData.birthday).format('LL')}</span></div>
+                                            {/* <div>Ngày sinh: <span>{moment(item.patientHistoryData.birthday).format('LL')}</span></div> */}
+                                            <div>Ngày sinh: <span>{item.patientHistoryData.birthday}</span></div>
                                             <div>Giới tính: <span>{item.patientHistoryData.genderData.valueVi}</span></div>
                                         </div>
 

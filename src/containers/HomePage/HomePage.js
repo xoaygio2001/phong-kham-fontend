@@ -12,6 +12,8 @@ import './HomePage.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import GeneralContent from './Section/GeneralContent';
+
 class HomePage extends Component {
 
     render() {
@@ -24,24 +26,15 @@ class HomePage extends Component {
         }
         return (
             <div>
-                <HomeHeader isShowBanner={true}/>
-                <SuggestClinic
-                    settings={settings}
-                />
-                <Specialty
-                    settings={settings}
-                />          
-                <MedicalFacility
-                    settings={settings}
-                />
-                <OutStandingDotor
-                    settings={settings}
-                />
+                <HomeHeader isShowBanner={true} />
                 <HandBook
                     settings={settings}
                 />
-                <About />
+                <GeneralContent
+                    settings={settings}
+                />
                 <HomeFooter />
+
             </div>
         );
     }

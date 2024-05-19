@@ -11,11 +11,27 @@ import SearchInput, { createFilter } from 'react-search-input'
 
 import Search from './Section/Search';
 
-import { getAllClinic } from '../../services/userService'
+import { getAllClinic, getSuggestClinicByRegion } from '../../services/userService'
 
 import ExaminationHistoryModal from '../Patient/Doctor/Modal/ExaminationHistoryModal';
 
 import { Link } from 'react-router-dom';
+
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+import Carousel from 'react-bootstrap/Carousel';
+import ExampleCarouselImage from '../../assets/images/bacsinoibat.jpg';
+
+import LoginModal from '../Patient/Doctor/Modal/LoginModal';
 
 // const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name']
 
@@ -28,7 +44,11 @@ class HomeHeader extends Component {
         this.state = {
             dataClinic: [],
             searchTerm: '',
-            isOpenModalBooking: false
+            isOpenModalBooking: false,
+            isOpenModalBooking2: false,
+            dataClinic: [],
+            region: 'Can tho',
+            keyWord: ''
         }
         this.searchUpdated = this.searchUpdated.bind(this)
     }
@@ -67,6 +87,27 @@ class HomeHeader extends Component {
             })
         }
 
+        let region = ''
+        // fetch(`https://api.ipify.org?format=json`)
+        //     .then((response) => response.json())
+        //     .then((ip) => {
+        //         fetch(`http://ipinfo.io/${ip.ip}?token=d7ede721f85e12`)
+        //             .then((res) => res.json())
+        //             .then(async (data) => {
+        //                 region = data.region.toUpperCase()
+        //                 let res = await getSuggestClinicByRegion(8, region);
+        //                 // let res = await getAllClinic();
+        //                 if (res && res.errCode === 0) {
+        //                     this.setState({
+        //                         dataClinic: res.data ? res.data : []
+        //                     })
+        //                 }
+        //                 this.setState({
+        //                     region: data.region
+        //                 })
+        //             })
+        //     })
+
     }
 
     handleClickScheduleTime = () => {
@@ -75,9 +116,21 @@ class HomeHeader extends Component {
         })
     }
 
+    handleClickScheduleTime2 = () => {
+        this.setState({
+            isOpenModalBooking2: true,
+        })
+    }
+
     closeBookingClose = () => {
         this.setState({
             isOpenModalBooking: false
+        })
+    }
+
+    closeBookingClose2 = () => {
+        this.setState({
+            isOpenModalBooking2: false
         })
     }
 
@@ -104,113 +157,105 @@ class HomeHeader extends Component {
         }
     }
 
+    handleOnChangeInput = (event, id) => {
+        let valueInput = event.target.value;
+        let stateCopy = { ...this.state };
+        stateCopy[id] = valueInput;
+        this.setState({
+            ...stateCopy
+        })
+    }
+
+    gotoClinics = (id) => {
+        if (this.props.history) {
+            this.props.history.push(`detail-clinic/${id}`)
+        }
+    }
+
     render() {
         const filteredEmails = this.state.dataClinic.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+        let { dataClinic } = this.state
 
         return (
-            <React.Fragment>
-                <div className="home-header-container">
-                    <div className="home-header-content">
-                        <div className="left-content">
-                            <i className="fas fa-bars"></i>
-                            <img className="header-logo" src={logo} onClick={() => this.returnToHome()} />
-                        </div>
-                        <div className="center-content">
-                            <div className="child-content">
-                                <div><b><FormattedMessage id="home-header.speciality" /></b></div>
-                                <div onClick={() => this.findByOptions('DOCTOR_BY_SPECIALTY')} className="sub-titile"><FormattedMessage id="home-header.search-doctor" /></div>
-                            </div>
-                            <div className="child-content">
-                                <div><b><FormattedMessage id="home-header.health-facility" /></b></div>
-                                <div onClick={() => this.findByOptions('CLINIC')} className="sub-titile"><FormattedMessage id="home-header.select-room" /></div>
-                            </div>
-                            <div className="child-content">
-                                <div><b><FormattedMessage id="home-header.doctor" /></b></div>
-                                <div onClick={() => this.findByOptions('DOCTOR')} className="sub-titile"><FormattedMessage id="home-header.select-doctor" /></div>
-                            </div>
-                            <div className="child-content">
-                                <div><b><FormattedMessage id="home-header.fee" /></b></div>
-                                <div className="sub-titile"><FormattedMessage id="home-header.check-health" /></div>
-                            </div>
+            <>
+                <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary header-of-homepage">
+                    <Container>
+                        <Link className="navbar-brand" to="/home">Juri Booking</Link>
 
-                        </div>
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                        <Navbar.Collapse id="responsive-navbar-nav">
+                            <Nav className="me-auto">
+                                <Link className="nav-link" to="/all-doctor/1">Bác sĩ</Link>
+                                <Link className="nav-link" to="/clinic/1">Cơ sở y tế</Link>
+                                <Link className="nav-link" to="/specialty">Chuyên khoa</Link>
+                                <Link className="nav-link" to="/handbook/1">Cẩm nan</Link>
+
+                                <Form className="d-flex">
+                                    <Form.Control
+                                        onChange={(e) => this.handleOnChangeInput(e, 'keyWord')}
+                                        value={this.state.keyWord}
+                                        type="search"
+                                        placeholder="Tìm cơ sở y tế"
+                                        className="me-2"
+                                        aria-label="Search"
+                                    />
+                                    <Link to={`/search-clinic/${this.state.keyWord}`} className='btn btn-outline-success'>Tìm</Link>
+                                </Form>
+
+                            </Nav>
+                            <Nav>
+                                <div onClick={() => this.handleClickScheduleTime()} className='nav-link'>Tra cứu lịch sử khám</div>
+                                <ExaminationHistoryModal
+                                    isOpenModal={this.state.isOpenModalBooking}
+                                    closeBookingClose={this.closeBookingClose}
+                                    dataTime={null}
+                                    doctorId={1}
+                                />
+
+                                <LoginModal
+                                    isOpenModal2={this.state.isOpenModalBooking2}
+                                    closeBookingClose2={this.closeBookingClose2}
+                                    dataTime={null}
+                                    doctorId={1}
+                                />
 
 
+                                <div className={this.props.language === LANGUAGES.VI ? "nav-link header-language active" : "nav-link header-language"} onClick={() => this.changeLanguage(LANGUAGES.VI)}>Vn</div>
+                                <div className={this.props.language === LANGUAGES.EN ? "nav-link header-language active" : "nav-link header-language"} onClick={() => this.changeLanguage(LANGUAGES.EN)}>En</div>
+                                <div className='nav-link'><i class="fas fa-bell"></i></div>
+                                <div onClick={() => this.handleClickScheduleTime2()} className='nav-link'>Đăng nhập</div>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+                {this.props.isShowBanner == true &&
+                    <div className='outstanding-clinics'>
+                        <Carousel className="clinic-carousel">
 
-                        <div className="right-content">
-                            <ExaminationHistoryModal
-                                isOpenModal={this.state.isOpenModalBooking}
-                                closeBookingClose={this.closeBookingClose}
-                                dataTime={null}
-                                doctorId={1}
-                            />
-                            <div onClick={() => this.handleClickScheduleTime()} className="tracuu">
-                                <i class="fab fa-searchengin"></i>
-                                <div className="sub-titile">Tra cứu lịch sử khám</div>
-                            </div>
+                            {dataClinic && dataClinic.length > 0 &&
+                                dataClinic.map((item, index) => {
+                                    return (
+                                        <Carousel.Item className="clinic-item">
+                                            <img className="img"
+                                                src={item.image}
+                                            />
+                                            <Carousel.Caption className='need-cursor' onClick={() => this.gotoClinics(item.id)}>
+                                                <h3>{item.name}</h3>
+                                                <h4>{item.provinceTypeData.valueVi}</h4>
+                                            </Carousel.Caption>
+                                        </Carousel.Item>
+                                    )
+                                })
+                            }
 
-                            <div className="support">
-                                <i className="far fa-question-circle"></i>
-                                <div className="sub-titile"><FormattedMessage id="home-header.support" /></div>
-                            </div>
-                            <div className="flag">
-                                <span className={this.props.language === LANGUAGES.VI ? "language-vi active" : "language-vi"} onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</span>
-                                <span className={this.props.language === LANGUAGES.EN ? "language-en active" : "language-en"} onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span>
-                            </div>
-                        </div>
 
-                    </div>
-
-                </div>
-
-                {this.props.isShowBanner === true &&
-                    <div className="home-header-banner" >
-                        <div className="content-up">
-                            <div className="title1"><FormattedMessage id="banner.title1" /></div>
-                            <div className="title2"><FormattedMessage id="banner.title2" /></div>
-                            <div className="search" onClick={() => this.handleClickSearch()}>
-                                <i className="fas fa-search"></i>
-                                {/* <input type="text" placeholder="Tìm chuyên khoa" /> */}
-                                <SearchInput className="search-input" placeholder="Tìm cơ sở y tế" onChange={this.searchUpdated} />
-
-                            </div>
-                            <Search
-                                clickSearch={this.state.clickSearch}
-                                filteredEmails={filteredEmails}
-                            />
-
-                        </div>
-                        <div className="content-down">
-                            <div className="options">
-                                <div className="option-child">
-                                    <div className="icon-child"><i className="fas fa-hospital-alt"></i></div>
-                                    <div className="text-child"><FormattedMessage id="banner.child1" /></div>
-                                </div>
-                                <div className="option-child">
-                                    <div className="icon-child"><i className="fas fa-mobile-alt"></i></div>
-                                    <div className="text-child"><FormattedMessage id="banner.child2" /></div>
-                                </div>
-                                <div className="option-child">
-                                    <div className="icon-child"><i className="fas fa-notes-medical"></i></div>
-                                    <div className="text-child"><FormattedMessage id="banner.child3" /></div>
-                                </div>
-                                <div className="option-child">
-                                    <div className="icon-child"><i className="fas fa-vial"></i></div>
-                                    <div className="text-child"><FormattedMessage id="banner.child4" /></div>
-                                </div>
-                                <div className="option-child">
-                                    <div className="icon-child"><i className="fas fa-user-md"></i></div>
-                                    <div className="text-child"><FormattedMessage id="banner.child5" /></div>
-                                </div>
-                                <div className="option-child">
-                                    <div className="icon-child"><i className="fas fa-briefcase-medical"></i></div>
-                                    <div className="text-child"><FormattedMessage id="banner.child6" /></div>
-                                </div>
-                            </div>
-                        </div>
+                        </Carousel>
                     </div>
                 }
-            </React.Fragment>
+
+
+            </>
+
         );
     }
 

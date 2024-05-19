@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl'
 import Slider from 'react-slick';
-import { getAllClinic } from '../../../services/userService';
+import { getAllClinic, getSuggestClinicByRegion } from '../../../services/userService';
 import { withRouter } from 'react-router';
 import './SuggestClinic.scss';
 
@@ -12,28 +12,34 @@ class SuggestClinic extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dataClinic: []
+            dataClinic: [],
+            region: ''
         }
     }
 
     async componentDidMount() {
-        let res = await getAllClinic();
-        if (res && res.errCode === 0) {
-            this.setState({
-                dataClinic: res.data ? res.data : []
-            })
-        }
+        let region = ''
         fetch(`https://api.ipify.org?format=json`)
             .then((response) => response.json())
             .then((ip) => {
                 fetch(`http://ipinfo.io/${ip.ip}?token=d7ede721f85e12`)
                     .then((res) => res.json())
-                    .then((data) => {
+                    .then( async(data) => {
+                        region = data.region.toUpperCase()
+                        let res = await getSuggestClinicByRegion(1, region);
+                        // let res = await getAllClinic();
+                        if (res && res.errCode === 0) {
+                            this.setState({
+                                dataClinic: res.data ? res.data : []
+                            })
+                        }
                         this.setState({
                             region: data.region
                         })
                     })
             })
+
+
     }
 
     handleViewDetailClinic = (clinic) => {
@@ -47,38 +53,7 @@ class SuggestClinic extends Component {
         let { dataClinic } = this.state;
 
         return (
-            <div className="section-share section-remote-doctor">
-                <div className="section-container">
-                    <div className="section-header">
-                        <span className="title-section">
-                        <FormattedMessage id="homepage.suggest-clinic" />
-                        </span>
-                    </div>
-                    <div className="section-body">
-                        <Slider {...this.props.settings}>
-                            {dataClinic && dataClinic.length > 0 &&
-                                dataClinic.map((item, index) => {
-                                    return (
-                                        <div className='section-customize clinic-child'
-                                            key={index}
-                                            onClick={() => this.handleViewDetailClinic(item)}
-
-                                        >
-                                            <div className='bg-image section-medical-facility '
-                                                style={{ backgroundImage: `url(${item.image})` }}
-                                            />
-
-                                            <div className='clinic-name'>{item.name}</div>
-                                            <div className='clinic-province'>{item.provinceTypeData.valueVi}</div>
-                                        </div>
-                                    )
-                                })
-                            }
-
-                        </Slider>
-                    </div>
-                </div>
-            </div>
+            <>clinic</>
         );
     }
 

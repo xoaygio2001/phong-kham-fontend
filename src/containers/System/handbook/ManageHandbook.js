@@ -107,7 +107,7 @@ class ManageHandbook extends Component {
 
             let res = await createNewHandbook(this.state);
             if (res && res.errCode === 0) {
-                toast.success('Thêm chuyên khoa thành công!')
+                toast.success('Thêm cẩm nan thành công!')
                 this.setState({
                     id: '',
                     name: '',
@@ -117,7 +117,7 @@ class ManageHandbook extends Component {
                     selectedSpecialty: ''
                 })
             } else {
-                toast.error('Thêm chuyên khoa thất bại....')
+                toast.error('Thêm cẩm nan thất bại....')
                 console.log('>> hoi dan it check res: ', res)
             }
         }
@@ -271,7 +271,7 @@ class ManageHandbook extends Component {
                                 value={this.state.selectedOption}
                                 onChange={this.handleChangeSelect}
                                 options={this.state.listSpecialty}
-                                placeholder="Chọn chuyên khoa"
+                                placeholder="Chọn cẩm nan"
                             />
                         </div>
 
@@ -320,14 +320,14 @@ class ManageHandbook extends Component {
                     <div className="add-new-specialty row">
 
                         <div className="col-6 form-group">
-                            <label>Tên chuyên khoa</label>
+                            <label>Tiêu đề cẩm nan</label>
                             <input className="form-control" type="text" value={this.state.name}
                                 onChange={(event) => this.handleOnChangeInput(event, 'name')}
                             />
                         </div>
 
                         <div className="col-6 form-group">
-                            <label>Ảnh chuyên khoa</label>
+                            <label>Ảnh cẩm nan</label>
                             <input className="form-control-file" type="file"
                                 onChange={(event) => this.handleOnChangeImage(event)}
                             />
@@ -344,7 +344,7 @@ class ManageHandbook extends Component {
                             <button className="btn-add-specialty"
                                 onClick={() => this.handleSaveNewSpecialty('add')}
                             >
-                                Thêm chuyên khoa
+                                Thêm cẩm nan
                             </button>
                         </div>
 

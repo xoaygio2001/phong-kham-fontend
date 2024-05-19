@@ -8,6 +8,10 @@ import "slick-carousel/slick/slick-theme.css";
 import { getAllSpecialty, getAllHandbook } from '../../../services/userService';
 import { withRouter } from 'react-router';
 
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
+
+
 
 class HandBook extends Component {
     constructor(props) {
@@ -40,41 +44,38 @@ class HandBook extends Component {
     }
 
     render() {
-
         let { dataSpecialty } = this.state;
         return (
-            <div className="section-share section-handbook">
-                <div className="section-container">
-                    <div className="section-header">
-                        <span className="title-section">
-                            {/* <FormattedMessage id="homepage.specialty-poplular" /> */}
-                            Cẩm nan
-                        </span>
-                        <button onClick={() => this.goToHandbook()}   className="btn-section">
-                            <FormattedMessage id="homepage.more-infor" />
-                        </button>
-                    </div>
-                    <div className="section-body">
-                        <Slider {...this.props.settings}>
-                            {dataSpecialty && dataSpecialty.length > 0 &&
-                                dataSpecialty.map((item, index) => {
-                                    return (
-                                        <div
-                                            className='section-customize specialty-child'
-                                            key={index}
-                                            onClick={() => this.handleViewDetailSpecialty(item)}
-                                        >
-                                            <div
-                                                className='bg-image section-specialty'
-                                                style={{ backgroundImage: `url(${item.image})` }}
-                                            />
+            <div className='handbook-section'>
+                <div className='handbook-title'>Cẩm nan mới</div>
+                <div className='handbook-main-section'>
+                    <div className='left-content'>
+                        <img className="img"
+                            src={dataSpecialty && dataSpecialty.length > 0 ? dataSpecialty[0].image : ''}
+                        />
+                        <div className='title-left-content'>{dataSpecialty && dataSpecialty.length > 0 ? dataSpecialty[0].title : ''}</div>
+                        <Link to={`/detail-handbook/${dataSpecialty && dataSpecialty.length > 0 ? dataSpecialty[0].id : 1}`} className='btn btn-primary'>Xem bài viết này</Link>{' '}
 
-                                            <div className='specialty-name'>{item.title}</div>
+                    </div>
+                    <div className='right-content'>
+                        {dataSpecialty && dataSpecialty.length > 1 &&
+                            dataSpecialty.map((item, index) => {
+                                if (index > 0 && index < 8) {
+                                    return (
+                                        <div onClick={() => this.handleViewDetailSpecialty(item)} className='content-item'>
+                                            <img className="img"
+                                                src={item.image}
+                                            />
+                                            <div className='title-right-content'>
+                                                {item.title}
+                                            </div>
                                         </div>
                                     )
-                                })
-                            }
-                        </Slider>
+                                }
+                            })
+                        }
+
+
                     </div>
                 </div>
             </div>

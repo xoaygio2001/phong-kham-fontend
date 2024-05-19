@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import './AllHandbook.scss';
+import './SearchClinic.scss';
 import HomeHeader from '../../HomePage/HomeHeader';
 import DoctorSchedule from '../Doctor/DoctorSchedule';
 import DoctorExtraInfor from '../Doctor/DoctorExtrainfor';
 import ProfileDoctor from '../Doctor/ProfileDoctor';
 import {
-getAllDetailSpecialtyById,
-getAllCodeService,
-getAllSpecialty,
-getAllClinicByPageNumber,
-getAllHandbookVer2
+    getAllDetailSpecialtyById,
+    getAllCodeService,
+    getAllSpecialty,
+    getAllClinicByPageNumber,
+    getClinicByKeyWord
 } from '../../../services/userService';
 import _ from 'lodash';
 import { LANGUAGES } from '../../../utils';
-class AllHandbook extends Component {
+class SearchClinic extends Component {
 
     constructor(props) {
         super(props);
@@ -28,18 +28,22 @@ class AllHandbook extends Component {
 
             limit: 10,
             maxDataNumber: 0,
+            keyWord: 'phòng khám',
+
         }
     }
 
     async componentDidMount() {
 
-        let res = await getAllHandbookVer2(this.state.limit, this.props.match.params.id)
+        let res = await getClinicByKeyWord(this.props.match.params.keyWord)
         if (res && res.errCode === 0) {
             this.setState({
                 arrClinic: res.data,
-                maxDataNumber: res.maxDataNumber
             })
         }
+
+
+
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -47,11 +51,11 @@ class AllHandbook extends Component {
 
         }
 
-        if (this.props.match.params.id !== prevProps.match.params.id) {
-            let res = await getAllHandbookVer2(this.state.limit, this.props.match.params.id)
+        if (this.props.match.params.keyWord !== prevProps.match.params.keyWord) {
+            let res = await getClinicByKeyWord(this.props.match.params.keyWord)
             if (res && res.errCode === 0) {
                 this.setState({
-                    arrClinic: res.data
+                    arrClinic: res.data,
                 })
             }
         }
@@ -64,33 +68,35 @@ class AllHandbook extends Component {
 
     handleChangePageNumber = (pageNumber) => {
         if (this.props.history) {
-            this.props.history.push(`/handbook/${pageNumber}`)
+            this.props.history.push(`/clinic/${pageNumber}`)
         }
     }
 
     handleGoToDetailClinic = (id) => {
         if (this.props.history) {
-            this.props.history.push(`/detail-handbook/${id}`)
+            this.props.history.push(`/detail-clinic/${id}`)
         }
     }
 
 
     render() {
+        console.log('state: ', this.state)
+        console.log('props: ', this.props)
         let {
             arrDoctorId, dataDetailSpecialty, listProvince, arrSpecialty, arrClinic,
             limit, maxDataNumber
         } = this.state;
         let { language } = this.props;
 
-        let maxPageNumber = Math.floor(maxDataNumber / limit) + 1;
+        let maxPageNumber = Math.floor(maxDataNumber / limit);
         let currentPage = this.props.match.params.id
 
         let arrPage = [];
 
         if (currentPage == 1) {
-            if(maxPageNumber > 3) {
+            if (maxPageNumber > 3) {
                 arrPage = [1, 2, maxPageNumber]
-            } else if(maxPageNumber == 2) {
+            } else if (maxPageNumber == 2) {
                 arrPage = [1, 2]
             } else {
                 arrPage = [1]
@@ -130,18 +136,8 @@ class AllHandbook extends Component {
                                             className='bg-image section-specialty'
                                             style={{ backgroundImage: `url(${item.image})` }}
                                         />
-                                        <div className='title'>{item.title}</div>
+                                        <div className='title'>{item.name}</div>
                                     </div>
-                                )
-                            })
-                        }
-                    </div>
-
-                    <div className='nav-pageNumber'>
-                        {arrPage && arrPage.length > 0 &&
-                            arrPage.map((item, index) => {
-                                return (
-                                    <div onClick={() => this.handleChangePageNumber(item)} className={item == currentPage ? 'active' : ''}>{item}</div>
                                 )
                             })
                         }
@@ -166,4 +162,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllHandbook);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchClinic);

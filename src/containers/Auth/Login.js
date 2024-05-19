@@ -19,6 +19,16 @@ class Login extends Component {
 
     }
 
+    componentDidMount() {
+        const userData = JSON.parse(localStorage.getItem('persist:user'));
+        console.log('userData: ', userData);
+
+        if (userData.isLoggedIn == 'false') {
+            console.log('cc')
+            this.props.history.push(`/home`)
+        }
+    }
+
     handleOnChangeUsername = (event) => {
         this.setState({
             username: event.target.value
@@ -44,18 +54,18 @@ class Login extends Component {
         })
         try {
             let data = await handleLogin(this.state.username, this.state.password);
-            if(data && data.errCode != 0){
+            if (data && data.errCode != 0) {
                 this.setState({
                     errMessage: data.message
                 });
             }
-            if(data && data.errCode == 0){
+            if (data && data.errCode == 0) {
                 this.props.userLoginSuccess(data.user);
             }
         }
         catch (except) {
-            if(except.response){
-                if(except.response.data){
+            if (except.response) {
+                if (except.response.data) {
                     this.setState({
                         errMessage: except.response.data.message
                     })
@@ -68,70 +78,31 @@ class Login extends Component {
     }
 
     handleKeyDown = (event) => {
-        if(event.key === 'Enter' || event.keyCode === 13){
+        if (event.key === 'Enter' || event.keyCode === 13) {
             this.handleLogin();
         }
     }
 
     render() {
-        return (
-            <div className="login-background">
-                <div className="login-container">
-                    <div className="login-content row">
-                        <div className="col-12 text-login">Login</div>
-                        <div className="col-12 form-group login-input">
-                            <label>Username</label>
-                            <input
-                                value={this.state.username}
-                                onChange={(event) => this.handleOnChangeUsername(event)}
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter your username"
-                            />
-                        </div>
-                        <div className="col-12 form-group login-input">
-                            <label>Password</label>
-                            <div className="custom-input-password">
-                                <input
-                                    value={this.state.password}
-                                    onChange={(event) => this.handleOnChangePassword(event)}
-                                    onKeyDown={(event) => this.handleKeyDown(event)}
-                                    type={this.state.isShowPassword ? 'text' : 'password'}
-                                    className="form-control"
-                                    placeholder="Enter your password"
-                                />
-                                <span onClick={() => this.handlingShowHidePassword()}>
-                                    <i className={this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"}></i>
-                                </span>
 
-                            </div>
-                        </div>
-                        <div className="col-12" style={{ color: 'red' }}>
-                            {this.state.errMessage}
-                        </div>
-                        <div className="col-12 button-login">
-                            <button onClick={() => this.handleLogin()} className="btn-login">Log In</button>
-                        </div>
-                        <div className="col-12">
-                            <span className="forgot-password">Forgot your password?</span>
-                        </div>
-                        <div className="col-12 text-center mt-3">
-                            <span className="text-other-login">Or Login With:</span>
-                        </div>
-                        <div className="social-login">
-                            <i className="fab fa-google-plus-g google"></i>
-                            <i className="fab fa-facebook-f facebook"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        const userData = JSON.parse(localStorage.getItem('persist:user'));
+
+        if (userData.isLoggedIn == 'false') {
+            console.log('cc')
+            this.props.history.push(`/home`)
+        }
+
+        return (
+            <></>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        language: state.app.language
+        isLoggedIn: state.user.isLoggedIn,
+        language: state.app.language,
+        userInfo: state.user.userInfo
     };
 };
 
@@ -139,6 +110,7 @@ const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
         // userLoginFail: () => dispatch(actions.adminLoginFail()),
+
         userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo))
     };
 };

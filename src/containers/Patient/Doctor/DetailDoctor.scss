@@ -84,8 +84,9 @@
             color: red;
             cursor: pointer;
         }
+
         .saonho1 {
-            font-size:small;
+            font-size: small;
             color: red;
             cursor: pointer;
         }
@@ -134,6 +135,222 @@
                 margin-top: 1%;
             }
         }
+
+    }
+}
+
+.detail-doctor-section {
+    width: 100vw;
+    height: 800px;
+    display: flex;
+
+    .left-detail-doctor {
+        width: 70%;
+        height: 700px;
+
+        .choose-booking {
+            width: 100%;
+            height: 300px;
+            background-color: #eff7ff;
+
+            .title-choose-booking {
+                width: 100%;
+                height: 50px;
+                display: flex;
+                align-items: end;
+                color: #012aff;
+                font-weight: 600;
+                font-size: x-large;
+                padding-left: 20px;
+                border-bottom: 3px solid #42ff03;
+            }
+
+            .main-choose-booking {
+                padding-left: 20px;
+                padding-top: 10px;
+
+            }
+
+        }
+
+        .clinic-address {
+            width: 100%;
+            height: 300px;
+
+            .title-address {
+                width: 100%;
+                height: 50px;
+                display: flex;
+                align-items: end;
+                color: #012aff;
+                font-weight: 600;
+                font-size: x-large;
+                padding-left: 20px;
+                border-bottom: 3px solid #42ff03;
+            }
+
+            .clinic-address-content {
+                margin-top: 10px;
+            }
+        }
+
+        .doctor-infor-about {
+            width: 100%;
+
+            background-color: #eff7ff;
+
+            .title-infor {
+                width: 100%;
+                height: 50px;
+                display: flex;
+                align-items: end;
+                color: #012aff;
+                font-weight: 600;
+                font-size: x-large;
+                padding-left: 20px;
+                border-bottom: 3px solid #42ff03;
+            }
+
+            .contentHTML {
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+        }
+
+        .comment-doctor {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 20px;
+            margin-top: 1%;
+            width: 100%;
+            background-color: #f9f9f9;
+
+            .sao1 {
+                font-size: x-large;
+                color: red;
+                cursor: pointer;
+            }
+
+            .saonho1 {
+                font-size: small;
+                color: red;
+                cursor: pointer;
+            }
+
+
+            .input-comment {
+                display: flex;
+                margin-top: 10px;
+
+                button {
+                    width: 80px;
+                    height: 35px;
+                    background-color: #00e7ff;
+                    border: none;
+                    border-radius: 5px;
+                    margin-left: 2%;
+                }
+            }
+
+            .title-comment {
+                font-size: 140%;
+                font-weight: 600;
+                margin-top: 2%;
+            }
+
+            .content-comment {
+
+
+                .top-comment {
+                    .name {
+                        font-weight: 600;
+                    }
+
+                    .date-time {
+                        color: aqua;
+                        font-style: italic;
+                        margin-left: 2%;
+                    }
+                }
+
+                .cmt {
+                    color: hotpink;
+                    font-size: large;
+                }
+
+                .bottom-comment {
+                    margin-top: 1%;
+                }
+            }
+
+        }
+    }
+
+    .right-detail-doctor {
+        width: 30%;
+        height: 700px;
+        display: flex;
+        justify-content: center;
+
+
+
+        .just-want-content-center {
+            width: 30%;
+            height: 100%;
+            float: right;
+            position: fixed;
+
+
+            .top-content {
+                display: flex;
+                justify-content: center;
+                height: 250px;
+                width: 100%;
+
+                .img {
+                    width: 250px;
+                    height: 100%;
+                    border-radius: 50%;
+                }
+            }
+
+            .bottom-content {
+
+                .doctor-name {
+                    text-align: center;
+                    color: #0064ff;
+                    font-weight: 600;
+                    font-size: 20;
+                }
+
+                .doctor-specialty {
+                    text-align: center;
+                    color: #009fff;
+                    font-size: 16px;
+                }
+
+                .doctor-star {
+                    text-align: center;
+                    font-size: 18px;
+                    color: #1807fb;
+
+                    i {
+                        color: yellow;
+                        font-size: 18px;
+                    }
+
+                }
+
+                .doctor-title {
+                    text-align: start;
+                    margin-top: 20px;
+                }
+            }
+
+
+
+        }
+
 
     }
 }

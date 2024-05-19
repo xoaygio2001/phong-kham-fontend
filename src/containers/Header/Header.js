@@ -8,6 +8,8 @@ import './Header.scss';
 import { LANGUAGES, USER_ROLE } from '../../utils';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash'
+import { push } from "connected-react-router";
+
 
 class Header extends Component {
 
@@ -41,6 +43,13 @@ class Header extends Component {
         })
     }
 
+    handleLogOut = () => {
+        const { navigate } = this.props;
+        const redirectPath = '/home';
+        navigate(`${redirectPath}`);
+        this.props.processLogout()
+    }
+
     render() {
         const { processLogout, language, userInfo } = this.props;
 
@@ -63,7 +72,7 @@ class Header extends Component {
                     <span
                         onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}
                         className={language == LANGUAGES.EN ? "language-en active" : "language-en"}>EN</span>
-                    <div className="btn btn-logout" onClick={processLogout}>
+                    <div className="btn btn-logout" onClick={() => this.handleLogOut()}>
                         <i className="fas fa-sign-out-alt"></i>
                     </div>
                 </div>
@@ -86,6 +95,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        navigate: (path) => dispatch(push(path)),
         processLogout: () => dispatch(actions.processLogout()),
         changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
     };

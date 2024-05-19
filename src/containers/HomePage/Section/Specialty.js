@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { getAllSpecialty } from '../../../services/userService';
+import { getAllSpecialty, getOutstandingSpecialties } from '../../../services/userService';
 import { withRouter } from 'react-router';
 
 
@@ -19,7 +19,10 @@ class Specialty extends Component {
     }
 
     async componentDidMount() {
-        let res = await getAllSpecialty();
+        // let res = await getAllSpecialty();
+        let res = await getOutstandingSpecialties(8);
+        
+
         if (res && res.errCode === 0) {
             this.setState({
                 dataSpecialty: res.data ? res.data : []
@@ -44,40 +47,7 @@ class Specialty extends Component {
 
         let { dataSpecialty } = this.state;
         return (
-            <div className="section-share section-specialty">
-                <div className="section-container">
-                    <div className="section-header">
-                        <span className="title-section">
-                            <FormattedMessage id="homepage.specialty-poplular" />
-                        </span>
-                        <button onClick={() => this.handleGoToSpecialty()} className="btn-section">
-                            <FormattedMessage id="homepage.more-infor" />
-                        </button>
-                    </div>
-                    <div className="section-body">
-                        <Slider {...this.props.settings}>
-                            {dataSpecialty && dataSpecialty.length > 0 &&
-                                dataSpecialty.map((item, index) => {
-                                    return (
-                                        <div
-                                            className='section-customize specialty-child'
-                                            key={index}
-                                            onClick={() => this.handleViewDetailSpecialty(item)}
-                                        >
-                                            <div
-                                                className='bg-image section-specialty-home'
-                                                style={{ backgroundImage: `url(${item.image})` }}
-                                            />
-
-                                            <div className='specialty-name'>{item.name}</div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </Slider>
-                    </div>
-                </div>
-            </div>
+<>chuyen khoa</>
         );
     }
 

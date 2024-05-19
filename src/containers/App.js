@@ -28,6 +28,8 @@ import AllClinic from './Patient/Clinic/AllClinic';
 import AllDoctor from './Patient/Doctor/AllDoctor';
 import AllHandbook from './Patient/Handbook/AllHandbook';
 
+import SearchClinic from './Patient/Clinic/SearchClinic';
+
 class App extends Component {
 
     handlePersistorState = () => {
@@ -58,6 +60,7 @@ class App extends Component {
                                 <Switch>
                                     <Route path={path.HOME} exact component={(Home)} />
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
+                                    <Route path={path.LOGIN} component={userIsNotAuthenticated(Home)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                     <Route path={'/doctor/'} component={userIsAuthenticated(Doctor)}></Route>
                                     <Route path={path.HOMEPAGE} component={HomePage} />
@@ -65,8 +68,11 @@ class App extends Component {
                                     <Route path={path.DETAIL_SPCIALTY} component={DetailSpecialty} />
                                     <Route path='/specialty' component={AllSpecialty} />
                                     <Route path='/clinic/:id' component={AllClinic} />
+                                    <Route path='/search-clinic/:keyWord' component={SearchClinic} />
+                                    <Route path='/search-clinic' component={HomePage} />
                                     <Route path='/all-doctor/:id' component={AllDoctor} />
                                     <Route path='/handbook/:id' component={AllHandbook} />
+                                    
                                     <Route path={path.DETAIL_CLINIC} component={DetailClinic} />
                                     <Route path={path.VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                                     <Route path={path.DELETE_SCHEDULE} component={DeleteSchedule} />

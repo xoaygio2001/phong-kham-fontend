@@ -16,8 +16,9 @@ class Doctor extends Component {
                 <div className="system-container">
                     <div className="system-list">
                         <Switch>
+                        <Route path="/doctor/manage-patient" component={ManagePatient} />
                             <Route path="/doctor/manage-schedule" component={ManageSchedule} />
-                            <Route path="/doctor/manage-patient" component={ManagePatient} />
+                            
                         </Switch>
                     </div>
                 </div>

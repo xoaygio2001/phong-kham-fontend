@@ -15,7 +15,7 @@ import NodeGeocoder from 'node-geocoder';
 import FontAwesomeIcon from '@fortawesome/fontawesome-free-webfonts'
 
 
-class DetailDoctor extends Component {
+class DetailDoctors extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,27 +37,28 @@ class DetailDoctor extends Component {
             })
 
             this.getDataDetailDoctor(id)
-
+            
         }
         this.loadComment()
     }
 
     getDataDetailDoctor = async (id) => {
         let res = await getDetailInforDoctor(id);
+        console.log(res.errCode)
         if (res && res.errCode === 0) {
-
+            
             this.setState({
                 detailDoctor: res.data
             })
         }
-        if (!res.errCode) {
+        if(!res.errCode) {
             await this.getDataDetailDoctor()
         }
     }
 
 
     loadComment = async () => {
-        let res = await getCommentByDoctorId(this.props.match.params.id);
+        let res = await getCommentByDoctorId(this.state.detailDoctor.id);
         if (res && res.errCode === 0) {
             this.setState({
                 commentArr: res.data
@@ -142,8 +143,7 @@ class DetailDoctor extends Component {
     render() {
 
         console.log('state: ', this.state)
-        console.log('pros: ', this.props)
-
+        console.log('props: ', this.props)
 
         let { language } = this.props;
         let { detailDoctor, commentArr, activeStar, star } = this.state;
@@ -158,7 +158,7 @@ class DetailDoctor extends Component {
                 <HomeHeader
                     isShowBanner={false}
                 />
-                {/* <div className="doctor-detail-container">
+                <div className="doctor-detail-container">
                     <div className="intro-doctor">
                         <div
                             className="content-left"
@@ -370,242 +370,6 @@ class DetailDoctor extends Component {
 
 
                     </div>
-                </div> */}
-
-
-
-                <div className='detail-doctor-section'>
-                    <div className='left-detail-doctor'>
-                        <div className='choose-booking'>
-                            <div className='title-choose-booking'>Đặt lịch ở đây</div>
-                            <div className='main-choose-booking'>
-                                <DoctorSchedule
-                                    doctorIdFromParent={this.state.currentDoctorId}
-                                />
-                            </div>
-                        </div>
-                        <div className='clinic-address'>
-                            <div className='title-address'>Thông tin thăm khám</div>
-                            <div className='clinic-address-content'>
-                                <DoctorExtrainfor
-                                    doctorIdFromParent={this.state.currentDoctorId}
-                                />
-                            </div>
-
-                        </div>
-
-                        <div className='doctor-infor-about'>
-                            <div className='title-infor'>Thông tin thăm khám</div>
-                            {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML
-                                &&
-                                <div className='contentHTML' dangerouslySetInnerHTML={{ __html: detailDoctor.Markdown.contentHTML }}>
-
-                                </div>
-                            }
-                        </div>
-
-                        <div className="comment-doctor">
-                            {
-                                activeStar > 0 ?
-                                    <i onClick={() => this.ClickStart(1)} className="fa fa-solid fa-star sao1"></i>
-                                    :
-                                    <i onClick={() => this.ClickStart(1)} className="far fa-solid fa-star sao1"></i>
-                            }
-
-                            {
-                                activeStar > 1 ?
-                                    <i onClick={() => this.ClickStart(2)} className="fa fa-solid fa-star sao1"></i>
-                                    :
-                                    <i onClick={() => this.ClickStart(2)} className="far fa-solid fa-star sao1"></i>
-                            }
-
-                            {
-                                activeStar > 2 ?
-                                    <i onClick={() => this.ClickStart(3)} className="fa fa-solid fa-star sao1"></i>
-                                    :
-                                    <i onClick={() => this.ClickStart(3)} className="far fa-solid fa-star sao1"></i>
-                            }
-
-                            {
-                                activeStar > 3 ?
-                                    <i onClick={() => this.ClickStart(4)} className="fa fa-solid fa-star sao1"></i>
-                                    :
-                                    <i onClick={() => this.ClickStart(4)} className="far fa-solid fa-star sao1"></i>
-                            }
-
-                            {
-                                activeStar > 4 ?
-                                    <i onClick={() => this.ClickStart(5)} className="fa fa-solid fa-star sao1"></i>
-                                    :
-                                    <i onClick={() => this.ClickStart(5)} className="far fa-solid fa-star sao1"></i>
-                            }
-
-
-                            {activeStar == 1 && <i className="">Tệ</i>}
-                            {activeStar == 2 && <i className="">Không hài lòng</i>}
-                            {activeStar == 3 && <i className="">Bình thường</i>}
-                            {activeStar == 4 && <i className="">Hài lòng</i>}
-                            {activeStar == 5 && <i className="">Tuyệt vời</i>}
-
-
-
-                            <div className='input-comment'>
-                                <input className='form-control'
-                                    placeholder='Cảm nhận của bạn sau khi khám'
-                                    onChange={(event) => this.handleChangeComment(event)}
-                                    value={this.state.comment}
-                                />
-                                <button onClick={() => this.handleSubmitComment()}>Gửi</button>
-                            </div>
-
-                            <div className='title-comment'>
-                                Phản hồi của bệnh nhân sau khi đi khám
-                            </div>
-                            <div className='container-comment'>
-
-                                {commentArr && commentArr.length > 0 &&
-                                    commentArr.map((item, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                            >
-                                                <hr />
-                                                <div className='content-comment'>
-
-                                                    <div className='top-comment'>
-                                                        <span className='name'>{item.userData.firstName}</span>
-                                                    </div>
-
-                                                    <div>
-                                                        {
-                                                            item.rate > 0 &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i>
-                                                        }
-
-                                                        {
-                                                            item.rate > 1 &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i>
-                                                        }
-
-                                                        {
-                                                            item.rate > 2 &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i>
-                                                        }
-                                                        {
-                                                            item.rate > 3 &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i>
-                                                        }
-                                                        {
-                                                            item.rate > 4 &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i> &&
-                                                            <i className="fa fa-solid fa-star saonho1"></i>
-                                                        }
-                                                    </div>
-                                                    <div>{moment(item.createdAt).format('LLLL')}</div>
-                                                    <div className='bottom-comment'>
-                                                        <span className='cmt'>{item.content}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-
-
-                        </div>
-                    </div>
-                    <div className='right-detail-doctor'>
-                        {detailDoctor &&
-                            <div className='just-want-content-center'>
-                                <div className='top-content'>
-                                    <img className="img"
-                                        src={detailDoctor.image}
-                                    />
-                                </div>
-
-                                <div className='bottom-content'>
-                                    <div className='doctor-name'>
-                                        {nameVi}
-                                    </div>
-
-                                    <div className='doctor-star'>
-
-                                        {star == 0 ? <div className='like-share-plugin'>Hiện chưa có lượt đánh giá nào</div>
-                                            :
-
-                                            <div className='like-share-plugin'>
-                                                {
-                                                    star > 0 ?
-                                                        <i className="fa fa-solid fa-star sao1"></i>
-                                                        :
-                                                        <i className="far fa-solid fa-star sao1"></i>
-                                                }
-
-                                                {
-                                                    star > 1.5 ?
-                                                        <i className="fa fa-solid fa-star sao1"></i>
-                                                        :
-                                                        <i className="far fa-solid fa-star sao1"></i>
-                                                }
-
-                                                {
-                                                    star > 2.5 ?
-                                                        <i className="fa fa-solid fa-star sao1"></i>
-                                                        :
-                                                        <i className="far fa-solid fa-star sao1"></i>
-                                                }
-
-                                                {
-                                                    star > 3.5 ?
-                                                        <i className="fa fa-solid fa-star sao1"></i>
-                                                        :
-                                                        <i className="far fa-solid fa-star sao1"></i>
-                                                }
-
-                                                {
-                                                    star > 4.5 ?
-                                                        <i className="fa fa-solid fa-star sao1"></i>
-                                                        :
-                                                        <i className="far fa-solid fa-star sao1"></i>
-                                                }
-
-                                                {
-                                                    star != 0 && ` ${star} / 5 sao`
-                                                }
-
-
-                                            </div>
-                                        }
-
-                                    </div>
-                                    <div className="doctor-title">
-                                        {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.description
-                                            &&
-                                            <div dangerouslySetInnerHTML={{ __html: detailDoctor.Markdown.description }}>
-
-                                            </div>
-                                        }
-                                    </div>
-                                    <div className='doctor-title'>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        }
-
-
-                    </div>
                 </div>
             </>
         );
@@ -623,4 +387,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctor);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailDoctors);

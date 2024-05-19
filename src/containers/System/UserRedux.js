@@ -219,7 +219,7 @@ class UserRedux extends Component {
                     <div className="col-12">{isGetGenders === true ? 'Loading Gender' : ''}</div>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label htmlFor="inputEmail4">Email</label>
+                            <label htmlFor="inputEmail4">Email (tài khoản đăng nhập)</label>
                             <input
                                 disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
                                 onChange={(event) => this.onChangeInput(event, 'email')}
@@ -227,7 +227,7 @@ class UserRedux extends Component {
                                 type="email" className="form-control" id="inputEmail4" placeholder="Email" />
                         </div>
                         <div className="form-group col-md-6">
-                            <label htmlFor="inputPassword4">Password</label>
+                            <label htmlFor="inputPassword4">Mật khẩu</label>
                             <input
                                 disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
                                 onChange={(event) => this.onChangeInput(event, 'password')}
@@ -236,35 +236,35 @@ class UserRedux extends Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="input first name">First name</label>
+                        <label htmlFor="input first name">Tên đầu</label>
                         <input
                             onChange={(event) => this.onChangeInput(event, 'firstName')}
                             value={firstName}
                             type="text" className="form-control" id="inputAddress" placeholder="" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="input last name">Last name</label>
+                        <label htmlFor="input last name">Tên cuối</label>
                         <input
                             onChange={(event) => this.onChangeInput(event, 'lastName')}
                             value={lastName}
                             type="text" className="form-control" id="inputAddress" placeholder="" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="input phone number">Phone number</label>
+                        <label htmlFor="input phone number">Số điện thoại</label>
                         <input
                             onChange={(event) => this.onChangeInput(event, 'phoneNumber')}
                             value={phoneNumber}
                             type="text" className="form-control" id="inputAddress" placeholder="" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="inputAddress">Address</label>
+                        <label htmlFor="inputAddress">Địa chỉ</label>
                         <input
                             onChange={(event) => this.onChangeInput(event, 'address')}
                             value={address}
                             type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="">Avatar</label>
+                        <label htmlFor="">Ảnh</label>
                     </div>
 
                     <div className="col-6 form-group">
@@ -275,7 +275,7 @@ class UserRedux extends Component {
 
                     <div className="form-row">
                         <div className="form-group col-md-4">
-                            <label htmlFor="inputState">Gender</label>
+                            <label htmlFor="inputState">Giới tính</label>
                             <select
                                 value={gender}
                                 onChange={(event) => this.onChangeInput(event, 'gender')}
@@ -292,7 +292,7 @@ class UserRedux extends Component {
                             </select>
                         </div>
                         <div className="form-group col-md-4">
-                            <label htmlFor="inputState">Position</label>
+                            <label htmlFor="inputState">Chức vụ</label>
                             <select
                                 value={position}
                                 onChange={(event) => this.onChangeInput(event, 'position')}
@@ -309,7 +309,7 @@ class UserRedux extends Component {
                             </select>
                         </div>
                         <div className="form-group col-md-4">
-                            <label htmlFor="inputState">Role</label>
+                            <label htmlFor="inputState">Vai trò</label>
                             <select
                                 value={role}
                                 onChange={(event) => this.onChangeInput(event, 'role')}

@@ -81,7 +81,7 @@ class RemedyModal extends Component {
                 centered
             >
                 <div className='modal-header'>
-                    <h5 className='modal-title'>Gửi hóa đơn khám bệnh thành công</h5>
+                    <h5 className='modal-title'>Gửi đơn thuốc khám bệnh thành công</h5>
                     <button type='button' className='close' aria-label='Close' onClick={closeRemedyModal}>
                         <span aria-hidden="true">x</span>
                     </button>
@@ -91,7 +91,7 @@ class RemedyModal extends Component {
                         <div className='col-6 form-group'>
                             <label>Email bệnh nhân</label>
                             <input className='form-controll' type='email' value={this.state.email}
-                                onChange={(event) => this.handleOnChangeEmail(event)}
+                                
                             />
                         </div>
                         <div className='col-6 form-group'>
@@ -103,8 +103,8 @@ class RemedyModal extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color='primary' onClick={() => this.handleSendRemedy()}>Send</Button>
-                    <Button color='secondary' onClick={closeRemedyModal}>Cancel</Button>
+                    <Button color='primary' onClick={() => this.handleSendRemedy()}>Gửi</Button>
+                    <Button color='secondary' onClick={closeRemedyModal}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

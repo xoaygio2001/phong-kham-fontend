@@ -25,9 +25,7 @@ class Search extends Component {
     }
 
     RedirectClinic = (clinic) => {
-        console.log('hehe')
         if (this.props.history) {
-            console.log('haha')
             this.props.history.push(`/detail-clinic/${clinic.id}`)
         }
     }
@@ -38,12 +36,15 @@ class Search extends Component {
             <>
                 {clickSearch && clickSearch === true &&
                     <div className='search-result'>
-                        {filteredEmails.map(item => {
-                            return (
-                                <div className="mail search-clinic" key={item.id}>
-                                    <div className="from" onClick={() => this.RedirectClinic(item)}>{item.name}</div>
-                                </div>
-                            )
+                        {filteredEmails.map((item, index) => {
+                            if(index < 3) {
+                                return (
+                                    <div className="mail search-clinic" key={item.id}>
+                                        <div className="from" onClick={() => this.RedirectClinic(item)}>{item.name}</div>
+                                    </div>
+                                )
+                            }
+
                         })}
                     </div>
                 }

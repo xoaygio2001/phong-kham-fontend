@@ -9,7 +9,7 @@ import DatePicker from "../../../components/Input/DatePicker";
 import moment from "moment";
 import { toast } from "react-toastify";
 import _ from 'lodash';
-import { saveBulkScheduleDoctor } from '../../../services/userService';
+import { saveBulkScheduleDoctor, getAllDoctors } from '../../../services/userService';
 
 
 class ManageSchedule extends Component {
@@ -24,15 +24,18 @@ class ManageSchedule extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.fetchAllDoctors();
         this.props.fetchAllScheduleTime();
+    }
+
+    buildDataManageSchedule = async () => {
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.allDoctors !== this.props.allDoctors) {
             let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
-            console.log('dataSelect: ', dataSelect)
             var result = []
 
             if (this.props.userInfo.roleId != 'R1') {
@@ -44,6 +47,7 @@ class ManageSchedule extends Component {
             } else {
                 result = dataSelect
             }
+
 
 
             this.setState({
@@ -60,6 +64,7 @@ class ManageSchedule extends Component {
                 rangeTime: data
             })
         }
+
     }
 
     buildDataInputSelect = (inputData) => {
@@ -149,7 +154,6 @@ class ManageSchedule extends Component {
     }
 
     render() {
-        console.log('prop: ', this.props.userInfo)
         let { rangeTime } = this.state;
         let { language } = this.props;
         let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));

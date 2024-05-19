@@ -280,12 +280,11 @@ class ManageDoctor extends Component {
     }
 
     render() {
-        console.log('state: ', this.state)
         let { hasOldData } = this.state;
         return (
             <div className='manage-doctor-container'>
                 <div className='manage-doctor-title'>
-                    <FormattedMessage id="admin.manage-doctor.title" />
+                    Tạo thêm thông tin bác sĩ
                 </div>
                 <div className='more-infor'>
                     <div className='content-left form-group'>

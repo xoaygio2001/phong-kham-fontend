@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import './ExaminationHistoryModal.scss';
+import './LoginModal.scss';
 import { Form, Modal } from 'reactstrap';
 import ProfileDoctor from '../ProfileDoctor';
 import _ from 'lodash';
@@ -9,7 +9,7 @@ import DatePicker from '../../../../components/Input/DatePicker';
 import * as actions from '../../../../store/actions';
 import { LANGUAGES } from '../../../../utils';
 import Select from 'react-select';
-import { postPatientBookAppointment, getPatientByGmail } from '../../../../services/userService';
+import { postPatientBookAppointment, getPatientByGmail, handleLogin } from '../../../../services/userService';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import LoadingOverlay from 'react-loading-overlay';
@@ -18,7 +18,7 @@ import { withRouter } from 'react-router';
 
 
 
-class ExaminationHistoryModal extends Component {
+class LoginModal extends Component {
 
     constructor(props) {
         super(props);
@@ -34,12 +34,20 @@ class ExaminationHistoryModal extends Component {
             genders: '',
             timeType: '',
             gmail: '',
-            isShowLoading: false
+            isShowLoading: false,
+            username: '',
+            password: '',
+            errMessage: ''
+
         }
     }
 
     async componentDidMount() {
         this.props.getGenders();
+        this.setState({
+            username: '',
+            password: ''
+        })
     }
 
     buildDataGender = (data) => {
@@ -171,13 +179,13 @@ class ExaminationHistoryModal extends Component {
 
         if (res && res.errCode === 3) {
             toast.error(res.errMessage);
-            this.props.closeBookingClose();
+            this.props.closeBookingClose2();
 
         } else {
 
             if (res && res.errCode === 0) {
                 toast.success('Booking a new appointment succeed!');
-                this.props.closeBookingClose();
+                this.props.closeBookingClose2();
             } else {
                 toast.error('Vui lòng kiểm tra lại địa chỉ email!')
             }
@@ -199,16 +207,50 @@ class ExaminationHistoryModal extends Component {
                 }
             }
             else {
-                toast.error("Gmail không tồn tại trong hệ thống");
+                toast.error("Email không tồn tại trong hệ thống");
             }
 
         }
 
     }
 
+    handleLogin = async () => {
+        this.setState({
+            errMessage: ''
+        })
+        let data = await handleLogin(this.state.username, this.state.password);
+        if (data && data.errCode != 0) {
+            this.setState({
+                errMessage: data.message
+            });
+            toast.error(data.message)
+        }
+        if (data && data.errCode == 0) {
+            await this.props.userLoginSuccess(data.user);
+            this.props.history.push(`/doctor/manage-schedule`);
+        }
+
+    }
+
+    handleOnChangeText = (event, id) => {
+        let stateCopy = { ...this.state };
+        stateCopy[id] = event.target.value;
+        this.setState({
+            ...stateCopy
+        })
+    }
+
+    TryClearData = () => {
+        this.setState({
+            username: '',
+            password: ''
+        })
+        this.props.closeBookingClose2()
+    }
+
     render() {
 
-        let { isOpenModal, closeBookingClose, dataTime } = this.props;
+        let { isOpenModal2, closeBookingClose2, dataTime } = this.props;
         let doctorId = '';
         if (dataTime && !_.isEmpty(dataTime)) {
             doctorId = this.props.doctorId
@@ -223,7 +265,7 @@ class ExaminationHistoryModal extends Component {
 
 
                 <Modal
-                    isOpen={isOpenModal}
+                    isOpen={isOpenModal2}
                     className={'booking-modal-container'}
                     size="lg"
                     centered
@@ -232,33 +274,48 @@ class ExaminationHistoryModal extends Component {
                     <div className='booking-modal-content'>
                         <div className='booking-modal-header'>
                             <span className='left'>
-                                Tra cứu lịch sử khám
+                                Đăng nhập vào hệ thông (chỉ dành cho quản lý và bác sĩ)
                             </span>
                             <span
                                 className='right'
-                                onClick={closeBookingClose}
+                                onClick={() => this.TryClearData()}
                             > <i className='fas fa-times'></i>
                             </span>
                         </div>
                         <div className='booking-modal-body'>
                             {/* */}
                             <label>
-                                Gmail
+                                Tài khoản
                             </label>
-
                             <div className='input-comment'>
                                 <input className='form-control'
-                                    placeholder='Nhập tài khoản Gmail mà bạn đã đăng ký khám vào đây'
-                                    onChange={(event) => this.handleChangeGmail(event)}
-                                    value={this.state.gmail}
+                                    placeholder='Nhập tài khoản vào đây'
+                                    onChange={(event) => this.handleOnChangeText(event, 'username')}
+                                    value={this.state.username}
                                 />
-                                <button className='i-want-blue' onClick={() => this.handleSearchData()}>Tìm</button>
+                            </div>
+
+                            <label>
+                                Mật khẩu
+                            </label>
+                            <div className='input-comment'>
+                                <input className='form-control'
+                                    type='password'
+                                    placeholder='Nhập mật khẩu vào đây'
+                                    onChange={(event) => this.handleOnChangeText(event, 'password')}
+                                    value={this.state.password}
+                                />
                             </div>
 
                         </div>
                         <div className='booking-modal-footer'>
+                            <button className='btn-booking-confirm'
+                                onClick={() => this.handleLogin()}
+                            >
+                                <FormattedMessage id="patient.booking-modal.btnConfirm" />
+                            </button>
                             <button className='btn-booking-cancel'
-                                onClick={closeBookingClose}
+                                onClick={() => this.TryClearData()}
                             >
                                 <FormattedMessage id="patient.booking-modal.btnCancel" />
                             </button>
@@ -281,7 +338,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getGenders: () => dispatch(actions.fetchGenderStart()),
+        userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo))
+
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ExaminationHistoryModal));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginModal));
